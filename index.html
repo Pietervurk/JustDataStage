@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<script src="JS/Jquery.min.js"></script>
+		
+    	<link rel="stylesheet" type="text/css" href="css/style.css">
+	</head>
+
+	<body>
+		<button onclick="addblock();">add</button>
+		<table>
+			<tr>
+				<td><select name="Hoogte">
+						<option value="">Hoogte...</option>
+					 	<option value="100">100 cm</option>
+					 	<option value="120">120 cm</option>
+						<option value="150">150 cm</option>
+						<option value="200">200 cm</option>
+						<option value="220">220 cm</option>
+						<option value="250">250 cm</option>
+						<option value="300">300 cm</option>
+						</select></td>
+				<td><select name="Lengte">
+						<option value="">Lengte...</option>
+					 	<option value="100">100 cm</option>
+					 	<option value="120">120 cm</option>
+						<option value="150">150 cm</option>
+						<option value="200">200 cm</option>
+						<option value="220">220 cm</option>
+						<option value="250">250 cm</option>
+						<option value="300">300 cm</option>
+						</select></td>
+				<td><select name="Diepte">
+						<option value="">Diepte...</option>
+					 	<option value="20">20 cm</option>
+					 	<option value="30">30 cm</option>
+						<option value="40">40 cm</option>
+						<option value="50">50 cm</option>
+						<option value="60">60 cm</option>
+						<option value="70">70 cm</option>
+						<option value="80">80 cm</option>
+						</select></td>
+				<td><select name="Legborden">
+						<option value="">Legborden...</option>
+					 	<option value="3">3</option>
+					 	<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						</select></td>
+			</tr>
+			<tr>
+				<td colspan="4" style="background-color: lightgrey">
+					<svg width="1000" height="750" id="svgcanvas" xmlns="http://www.w3.org/2000/svg">
+  					
+				</svg>
+				</td>
+				
+			</tr>
+		</table>
+	</body>
+
+</html><script src="JS/svg.js"></script>
