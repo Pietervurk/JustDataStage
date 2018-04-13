@@ -30,26 +30,50 @@ function addblock(){
 
 var svg = (function($){
 
-	var initModule;
-	var height,width,depth,planks;
+	var initModule, newSection, getarray,addSection;
+	var height,length,depth,planks;
 	var svgns = "http://www.w3.org/2000/svg";
 	var sections = [];
 	//var section = {height:"200", width:"100", depth:"80", planks:"5"};
 
 
-	initModule = functions(){
+	initModule = function(){
 
+	};
+
+	newSection = function(height,length,depth,planks){
+		var name = "section" + (sections.length+1);
+		var temp = {name:name, height:height, length:length, depth:depth, planks,planks};
+		sections.push(temp);
+	};
+
+	addSection = function(){
+		var e = document.getElementById("Hoogte");
+		var Hoogte = e.options[e.selectedIndex].value;
+		var e = document.getElementById("Lengte");
+		var Lengte = e.options[e.selectedIndex].value;
+		var e = document.getElementById("Diepte");
+		var Diepte = e.options[e.selectedIndex].value;
+		var e = document.getElementById("Legborden");
+		var Legborden = e.options[e.selectedIndex].value;
+		newSection(Hoogte,Lengte,Diepte,Legborden);
 	}
 
-	newSection = function(height,width,depth,planks){
-		var name = "section" + sections.count()+1;
-		var name = {};
+	getarray = function(){
+		return sections;
 	}
 
 
-	return {initModule: initModule, newSection: newSection}
-}(JQuery));
+	return {initModule:initModule, newSection:newSection, getarray:getarray, addSection:addSection}
+}(jQuery));
 
 $(function() {
 	//when done
+
+var svgarray = svg.getarray();
+
+svgarray.forEach(function(element){
+	console.log(element);
+});
+
 })
