@@ -35,7 +35,7 @@
 
 var svg = (function($){
 
-	var initModule, newSection, getarray,addSection,newrack, drawRack;
+	var initModule, newSection, getarray, addSection, newrack, drawRack,test;
 	var height,Width,length,depth,planks;
 	var svgns = "http://www.w3.org/2000/svg";
 	var sections = [];
@@ -72,24 +72,30 @@ var svg = (function($){
 	}
 
 	prepRackPillar = function(){
-		var totalwidth;
+		var totalwidth = 0;
 		//calculates amount of pillars and where to place them.
 		// puts in array with pillar object(height,location)
 
-		for(i=0; i<sections.length; i++){
-			if(i == 0){
+		for(i=0; i<sections.length+1; i++){
+			
+			if(i == 0){ // first pole.
 				pillars.push({name:"pillar" + (pillars.length+1), height:sections[i].height, position:0});
 				totalwidth += sections[i].width;
-			}else{
-				if(sections[i--].height > sections[i].height){
-					pillars.push({name:"pillar"+(pillars.length+1), height:sections[i--], position:totalwidth});
+			}else if(i> 0 && i < sections.length){// every pillar inbetween
+				if(sections[i-1].height > sections[i].height){
+					pillars.push({name:"pillar"+(pillars.length+1), height:sections[i-1].height, position:totalwidth});
 					totalwidth += sections[i].width;
-				}else{
-					pillar.push({name:"pillar"+(pillars.length+1), height:sections})
-				}
-			}
-
-			
+					}else if(sections[i-1].height < sections[i].height){
+						pillars.push({name:"pillar"+(pillars.length+1), height:sections[i].height, position:totalwidth});
+						totalwidth += sections[i].width;
+					}else if(sections[i-1].height == sections[i].height){
+						pillars.push({name:"pillar"+(pillars.length+1), height:sections[i].height, position:totalwidth});
+						totalwidth += sections[i].width;
+					}
+				}else{//last pillar
+					//totalwidth += sections[i-1].width;
+						pillars.push({name:"pillar"+(pillars.length+1), height:sections[i-1].height, position:totalwidth});
+					}
 		}
 	}
 
@@ -101,7 +107,15 @@ var svg = (function($){
 	}
 
 
+	test = function(){
+		// test space for functiontesting
 
+		newSection(250,100,50,5);
+		newSection(150,100,50,5);
+		newSection(250,100,50,5);
+		prepRackPillar();
+		return pillars;
+	}
 
 
 
@@ -138,10 +152,11 @@ var svg = (function($){
 	}
 
 
-	return {initModule:initModule, newSection:newSection, getarray:getarray, addSection:addSection, newrack:newrack, drawRack:drawRack}
+	return {initModule:initModule, newSection:newSection, getarray:getarray, addSection:addSection, newrack:newrack, drawRack:drawRack, test:test}
 }(jQuery));
 
 $(function() {
 	//when done
+	svg.initModule();
 
 })
