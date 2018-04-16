@@ -40,6 +40,8 @@ var svg = (function($){
 	var svgns = "http://www.w3.org/2000/svg";
 	var sections = [];
 	var pillars = [];
+	var planks = [];
+	
 	var Hoogte,Breedte,Lengte,Diepte,Legborden;
 
 
@@ -99,6 +101,22 @@ var svg = (function($){
 		}
 	}
 
+	prepRackPlanks = function(){
+			sections.forEach(function(section){
+				var spaceInBetween = section.height/section.planks;
+				var sectionplanks = [];
+				
+				for(i=0;i<section.planks; i++){
+					if(i==0){
+						sectionplanks.push({name:"Plank"+(i+1),height:0});
+					}else{
+						sectionplanks.push({name:"Plank"+(i+1),height:(spaceInBetween*i)});
+					}
+				}
+				planks.push(sectionplanks);
+			});
+	}
+
 
 
 
@@ -114,7 +132,10 @@ var svg = (function($){
 		newSection(150,100,50,5);
 		newSection(250,100,50,5);
 		prepRackPillar();
-		return pillars;
+		//return pillars;
+		prepRackPlanks();
+		return planks;
+
 	}
 
 
