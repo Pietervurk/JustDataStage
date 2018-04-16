@@ -1,23 +1,29 @@
 button, select{
-    background-color: #e7e7e7;
+    background-color: #ededff;
     border: none;
     padding: 7px 15px;
     text-align: center;
     text-decoration: none;
-    border-radius: 3px;
+    border-radius: 1px;
     margin-bottom: 3px;
-    
+    border-bottom: 4px solid #9898D9;
+    color:#292169;
+    font-weight: bold;
 }
-
+table{
+    width: 100%;
+}
 button{
     float:right;
 }
 button:hover, select:hover{
     box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+    background-color: #e0e0ff
 }
 
 .canvas{
     background-color: #e7e7e7;
-    border-radius: 3px;
+    border-radius: 1px;
+    border-top: 4px solid #F56E00;
 }
 
