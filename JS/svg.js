@@ -84,6 +84,8 @@ var svg = (function($){
 				if(sections[i--].height > sections[i].height){
 					pillars.push({name:"pillar"+(pillars.length+1), height:sections[i--], position:totalwidth});
 					totalwidth += sections[i].width;
+				}else{
+					pillar.push({name:"pillar"+(pillars.length+1), height:sections})
 				}
 			}
 
