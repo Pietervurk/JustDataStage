@@ -13,9 +13,11 @@ button, select{
 table{
     width: 100%;
 }
+/* 
 button{
     float:right;
-}
+} 
+*/
 button:hover, select:hover{
     box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
     background-color: #e0e0ff
@@ -27,3 +29,25 @@ button:hover, select:hover{
     border-top: 4px solid #F56E00;
 }
 
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+.dropdown-selectie select{
+    width: 100%;
+    text-align: left;
+}
