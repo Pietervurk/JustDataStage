@@ -23,7 +23,7 @@ function addblock(){
 
 var svg = (function($){
 
-	var initModule, newSection, getarray, addSection, newrack, drawRack,test, ChangeRackDepth,drawPillar,myFunction;;
+	var initModule, newSection, getarray, addSection, newrack, drawRack,test, ChangeRackDepth,drawPillar,myFunction,ChangeHeightWidthSection;
 	var height,Width,length,depth,planks;
 	var svgns = "http://www.w3.org/2000/svg";
 	var sections = [];
@@ -135,6 +135,13 @@ var svg = (function($){
 		//Run prepRackPillar and prepRackPlanks again
 		//Clear SVG
 		//Redraw Rack
+		for (var i = 0; i < sections.length; i++) {
+			console.log(sections[i].name);
+		        if (sections[i].name === Section) {
+		            sections[i].height = Height;
+		            sections[i].width = Width;
+		        }
+		    }
 	}
 
 	myFunction =function(x,y){
@@ -187,7 +194,7 @@ var svg = (function($){
 	}
 
 
-	return {initModule:initModule, newSection:newSection, getarray:getarray, addSection:addSection, newrack:newrack, drawRack:drawRack, test:test, myFunction:myFunction, ChangeRackDepth:ChangeRackDepth}
+	return {initModule:initModule, newSection:newSection, getarray:getarray, addSection:addSection, newrack:newrack, drawRack:drawRack, test:test, myFunction:myFunction, ChangeRackDepth:ChangeRackDepth,ChangeHeightWidthSection:ChangeHeightWidthSection}
 }(jQuery));
 
 $(function() {
