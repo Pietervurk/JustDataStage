@@ -24,7 +24,7 @@ function addblock(){
 var svg = (function($){
 
 
-	var initModule, newSection, getarray, addSection, newrack, drawRack,test, ChangeRackDepth,drawPillar,myFunction,drawPlanks,ChangeHeightWidthSection;
+	var initModule, newSection, getarray, addSection, newrack, drawRack,test, ChangeRackDepth,drawPillar,myFunction,drawPlanks,ChangeHeightWidthSection, clearsvg;
 	var height,Width,length,depth,planks;
 	var svgns = "http://www.w3.org/2000/svg";
 	var sections = [];
@@ -159,6 +159,11 @@ var svg = (function($){
 			i++;
 		})
 	}
+
+	clearsvg = function(){
+		$("#svgcanvas").empty();
+	}
+
 	ChangeRackDepth = function(newdepth){
 		sections.forEach(function(section){
 			section.depth = newdepth;
