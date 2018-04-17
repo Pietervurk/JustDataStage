@@ -23,7 +23,7 @@ function addblock(){
 
 var svg = (function($){
 
-	var initModule, newSection, getarray, addSection, newrack, drawRack,test, ChangeRackDepth,drawPillar,myFunction,drawPlanks;
+	var initModule, newSection, getarray, addSection, newrack, drawRack,test, ChangeRackDepth,drawPillar,DropDown,drawPlanks, prepRackPillar, prepRackPlanks;
 	var height,Width,length,depth,planks;
 	var svgns = "http://www.w3.org/2000/svg";
 	var sections = [];
@@ -60,13 +60,20 @@ var svg = (function($){
 		if(Lengte > DefaultWidth){ // variable amount of sections
 				for(i=0; i< Lengte/DefaultWidth; i++){
 					newSection(Hoogte,Breedte,Diepte,Legborden);
+					console.log(Hoogte,Breedte,Diepte,Legborden);
 				}
 		}else{ // single section
 			newSection(Hoogte,Breedte,Diepte,Legborden);
+			console.log(Hoogte,Breedte,Diepte,Legborden);
 		}
+		prepRackPillar();
+		prepRackPlanks();
+		drawRack();
+		console.log('hoi');
 	}
 
 	prepRackPillar = function(){
+		console.log('hoi vanuit pilllar');
 		var totalwidth = 0;
 		//calculates amount of pillars and where to place them.
 		// puts in array with pillar object(height,location)
@@ -95,6 +102,7 @@ var svg = (function($){
 	}
 
 	prepRackPlanks = function(){
+		console.log('hoi vanuit planks');
 			sections.forEach(function(section){
 				var spaceInBetween = section.height/section.planks;
 				var sectionplanks = [];
@@ -111,17 +119,21 @@ var svg = (function($){
 	}
 
 	drawRack = function(){
+		console.log('hoi vanuit draw');
+		console.log(sections);
 		drawPillar();
 		drawPlanks();
 	}
 	
 	drawPillar= function(){
+		console.log('hoi vanuit drawpillar');
 		var hoogte = 0;
 		sections.forEach(function(section){
 			if(section.height > hoogte){
 				hoogte=section.height;
 			}
 		})
+		var i = 0;
 		pillars.forEach(function(pillar) {
 			var rect = document.createElementNS(svgns, 'rect');
 			rect.setAttributeNS(null, 'name', pillar.name);
@@ -130,11 +142,13 @@ var svg = (function($){
 			rect.setAttributeNS(null, 'height', pillar.height);
 			rect.setAttributeNS(null, 'width', defaultPillarWidth);
 			rect.setAttributeNS(null, 'fill', '#112112');
-			rect.setAttribute('onmouseover', 'svg.myFunction('+ (pillar.position + 25) +','+ (hoogte + 25) + ')');
+			rect.setAttribute('onmouseover', 'svg.myFunction('+ (pillar.position + 25) +','+ (hoogte + 25) + ','+(1+i)+')');
 			document.getElementById('svgcanvas').appendChild(rect);
+			i++;
 		})
 	}
 	drawPlanks = function(){
+		console.log('hoi vanuit drawplanks');
 		var i = 0;
 		var hoogte = 0;
 		var breedte = sections[i].width;
@@ -152,7 +166,7 @@ var svg = (function($){
 				rect.setAttributeNS(null, 'height', defaultPlankWidth);
 				rect.setAttributeNS(null, 'width', breedte);
 				rect.setAttributeNS(null, 'fill', '#454545');
-				rect.setAttribute('onmouseover', 'svg.myFunction('+ (pillars[i].position + 25) +','+ (hoogte + 25) + ')');
+				rect.setAttribute('onmouseover', 'svg.myFunction('+ (breedte * i + 25) +','+ (hoogte + 25) + ','+(1+i)+')');
 				document.getElementById('svgcanvas').appendChild(rect);
 			})
 			i++;
@@ -171,13 +185,54 @@ var svg = (function($){
 		//Redraw Rack
 	}
 
-	myFunction =function(x,y){
+	DropDown =function(x,y,i){
 		var z = document.getElementById("dropDown");
 		if (z.style.display == "none") {
 			z.style.display = "block";
 		}
 		z.style.marginTop=y+"px";
 		z.style.marginLeft=x+"px";
+		document.getElementById("dropDownNaam").innerHTML = "Wijzig sectie " + i;
+		DropDownEditor(i);
+	}
+
+	DropDownEditor = function(j){
+		var hoogte = document.getElementById('HoogteAanpassen');
+		var breedte = document.getElementById('BreedteAanpassen');
+		var diepte = document.getElementById('DiepteAanpassen');
+		var legborden = document.getElementById('LegbordenAanpassen');
+		var value = sections[j-1].height;
+		var options = hoogte.options;
+		for (var option, i = 0; option = options[i]; i++) {
+			if (option.value == value) {
+				hoogte.selectedIndex = i;
+			break;
+			}
+		}
+		var value = sections[j-1].width;
+		var options = breedte.options;
+		for (var option, i = 0; option = options[i]; i++) {
+			if (option.value == value) {
+				breedte.selectedIndex = i;
+			break;
+			}
+		}
+		var value = sections[j-1].depth;
+		var options = diepte.options;
+		for (var option, i = 0; option = options[i]; i++) {
+			if (option.value == value) {
+				diepte.selectedIndex = i;
+			break;
+			}
+		}
+		var value = sections[j-1].planks;
+		var options = legborden.options;
+		for (var option, i = 0; option = options[i]; i++) {
+			if (option.value == value) {
+				legborden.selectedIndex = i;
+			break;
+			}
+		}
 	}
 
 	test = function(){
@@ -196,6 +251,7 @@ var svg = (function($){
 	}
 
 	newSection = function(height,width,depth,planks){
+		console.log('hoi vanuit newsection');
 		sections.push({name:"section" + (sections.length+1), height:height, width:width, depth:depth, planks,planks});
 	};
 
@@ -204,13 +260,13 @@ var svg = (function($){
 		// waardes vanuit HTML ophalen.
 		var e;
 		e = document.getElementById("Hoogte");
-		Hoogte = e.options[e.selectedIndex].value;
+		Hoogte = Number(e.options[e.selectedIndex].value);
 		e = document.getElementById("Lengte");
-		Lengte = e.options[e.selectedIndex].value;
+		Lengte = Number(e.options[e.selectedIndex].value);
 		e = document.getElementById("Diepte");
-		Diepte = e.options[e.selectedIndex].value;
+		Diepte = Number(e.options[e.selectedIndex].value);
 		e = document.getElementById("Legborden");
-		Legborden = e.options[e.selectedIndex].value;
+		Legborden = Number(e.options[e.selectedIndex].value);
 		//newSection(Hoogte,Lengte,Diepte,Legborden);  --Not Needed
 		Breedte = DefaultWidth;
 	}
@@ -222,7 +278,7 @@ var svg = (function($){
 	}
 
 
-	return {initModule:initModule, newSection:newSection, getarray:getarray, addSection:addSection, newrack:newrack, drawRack:drawRack, test:test, myFunction:myFunction, ChangeRackDepth:ChangeRackDepth}
+	return {initModule:initModule, newSection:newSection, getarray:getarray, addSection:addSection, newrack:newrack, drawRack:drawRack, test:test, myFunction:DropDown, ChangeRackDepth:ChangeRackDepth}
 }(jQuery));
 
 $(function() {
