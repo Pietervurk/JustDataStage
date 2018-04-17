@@ -35,7 +35,7 @@
 
 var svg = (function($){
 
-	var initModule, newSection, getarray, addSection, newrack, drawRack,test;
+	var initModule, newSection, getarray, addSection, newrack, drawRack,test, ChangeRackDepth;
 	var height,Width,length,depth,planks;
 	var svgns = "http://www.w3.org/2000/svg";
 	var sections = [];
@@ -117,11 +117,21 @@ var svg = (function($){
 			});
 	}
 
-
-
-
 	drawRack = function(){
 
+	}
+
+	ChangeRackDepth = function(newdepth){
+		sections.forEach(function(section){
+			section.depth = newdepth;
+		});
+	}
+
+	ChangeHeightWidthSection = function(Section,Height,Width){
+		//Change values of selected Section
+		//Run prepRackPillar and prepRackPlanks again
+		//Clear SVG
+		//Redraw Rack
 	}
 
 
@@ -134,21 +144,14 @@ var svg = (function($){
 		prepRackPillar();
 		//return pillars;
 		prepRackPlanks();
-		return planks;
+		//return planks;
+		return sections;
 
 	}
 
-
-
 	newSection = function(height,width,depth,planks){
-		var name = "section" + (sections.length+1);
-		var temp = {name:name, height:height, width:width, depth:depth, planks,planks};
-		sections.push(temp);
+		sections.push({name:"section" + (sections.length+1), height:height, width:width, depth:depth, planks,planks});
 	};
-
-
-
-
 
 
 	 getValuesFromHTML= function(){
@@ -173,7 +176,7 @@ var svg = (function($){
 	}
 
 
-	return {initModule:initModule, newSection:newSection, getarray:getarray, addSection:addSection, newrack:newrack, drawRack:drawRack, test:test}
+	return {initModule:initModule, newSection:newSection, getarray:getarray, addSection:addSection, newrack:newrack, drawRack:drawRack, test:test, ChangeRackDepth:ChangeRackDepth}
 }(jQuery));
 
 $(function() {
