@@ -120,7 +120,7 @@ var svg = (function($){
 			rect.setAttributeNS(null, 'height', pillar.height);
 			rect.setAttributeNS(null, 'width', defaultPillarWidth);
 			rect.setAttributeNS(null, 'fill', '#112112');
-			rect.setAttribute('onmouseover', 'myFunction('+ (pillar.position + 25) +','+ (pillar.height + 25) + ')');
+			rect.setAttribute('onmouseover', 'svg.myFunction('+ (pillar.position + 25) +','+ (pillar.height + 25) + ')');
 			document.getElementById('svgcanvas').appendChild(rect);
 		})
 	}
