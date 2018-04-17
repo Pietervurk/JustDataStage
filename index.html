@@ -7,72 +7,6 @@
 	</head>
 
 	<body>
-		<div class="dropdown">
-			<span>Mouse over me</span>
-			<div class="dropdown-content">
-				<p>Wijzig sectie 1</p>
-				<p>(indien gewenst)</p>
-				<table class="dropdown-selectie">
-					<tr>
-						<td>
-							<label>hoogte:</label>
-						</td>
-						<td>
-							<select>
-								<option value="100">100</option>
-								<option value="120">120</option>
-								<option value="150">150</option>
-								<option value="200">200</option>
-								<option value="220">220</option>
-								<option value="250">250</option>
-								<option value="300">300</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label>breedte:</label>
-						</td>
-						<td>
-							<select>
-								<option value="50">50</option>
-								<option value="100">100</option>
-								<option value="150">150</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label>diepte:</label>
-						</td>
-						<td>
-							<select>
-								<option value="20">20</option>
-								<option value="30">30</option>
-								<option value="40">40</option>
-								<option value="50">50</option>
-								<option value="60">60</option>
-								<option value="70">70</option>
-								<option value="80">80</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label>aantal legborden:</label>
-						</td>
-						<td>
-							<select>
-								<option value="3">3</option>
-								<option value="4">4</option>
-								<option value="5">5</option>
-								<option value="6">6</option>
-							</select>
-						</td>
-					</tr>
-				</table>
-			</div>
-		</div>
 		<table>
 			<tr>
 				<td><select name="Hoogte" id="Hoogte">
@@ -117,14 +51,81 @@
 				</td>
 			</tr>
 			<tr>
-				<td colspan="5" class="canvas">
+				<td colspan="5" class="canvas" >
+					<div style="position:relative;">
+							<div class="dropdown-content" id="dropdown" style= "position:absolute;">
+									<p>Wijzig sectie 1</p>
+									<p>(indien gewenst)</p>
+									<table class="dropdown-selectie">
+										<tr>
+											<td>
+												<label>hoogte:</label>
+											</td>
+											<td>
+												<select>
+													<option value="100">100</option>
+													<option value="120">120</option>
+													<option value="150">150</option>
+													<option value="200">200</option>
+													<option value="220">220</option>
+													<option value="250">250</option>
+													<option value="300">300</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<label>breedte:</label>
+											</td>
+											<td>
+												<select>
+													<option value="50">50</option>
+													<option value="100">100</option>
+													<option value="150">150</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<label>diepte:</label>
+											</td>
+											<td>
+												<select>
+													<option value="20">20</option>
+													<option value="30">30</option>
+													<option value="40">40</option>
+													<option value="50">50</option>
+													<option value="60">60</option>
+													<option value="70">70</option>
+													<option value="80">80</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<label>aantal legborden:</label>
+											</td>
+											<td>
+												<select>
+													<option value="3">3</option>
+													<option value="4">4</option>
+													<option value="5">5</option>
+													<option value="6">6</option>
+												</select>
+											</td>
+										</tr>
+									</table>
+								</div>
 					<svg width="1000" height="750" id="svgcanvas" xmlns="http://www.w3.org/2000/svg">
-  					
-				</svg>
+						
+					</svg>
+					</div>
 				</td>
 				
 			</tr>
 		</table>
 	</body>
 
-</html><script src="JS/svg.js"></script>
+
+<script src="JS/svg.js"></script>
+</html>

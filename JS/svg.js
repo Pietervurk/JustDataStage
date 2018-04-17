@@ -6,36 +6,24 @@
 // test code voor svg
 
 
-//for (var x = 0; x < 1000; x += 10) {
-//    for (var y = 0; y < 750; y += 10) {
-//        var rect = document.createElementNS(svgns, 'rect');
-//        rect.setAttributeNS(null, 'x', x);
-//        rect.setAttributeNS(null, 'y', y);
-//        rect.setAttributeNS(null, 'height', '10');
-//        rect.setAttributeNS(null, 'width', '10');
-//        rect.setAttributeNS(null, 'fill', '#'+Math.round(0xffffff * Math.random()).toString(16));
-//        document.getElementById('svgcanvas').appendChild(rect);
-//    }
-//}
-//var x = 10;
-//var y = 10;
 
-//function addblock(){
-//	var rect = document.createElementNS(svgns, 'rect');
-//        rect.setAttributeNS(null, 'x', x);
-//        rect.setAttributeNS(null, 'y', y);
-//        rect.setAttributeNS(null, 'height', '10');
-//        rect.setAttributeNS(null, 'width', '10');
-//        rect.setAttributeNS(null, 'fill', '#'+Math.round(0xffffff * Math.random()).toString(16));
- //       document.getElementById('svgcanvas').appendChild(rect);
-//        x+=10;
-//        y+=10;
-//}
+
+function addblock(){
+	var rect = document.createElementNS(svgns, 'rect');
+       rect.setAttributeNS(null, 'x', x);
+       rect.setAttributeNS(null, 'y', y);
+       rect.setAttributeNS(null, 'height', '10');
+       rect.setAttributeNS(null, 'width', '10');
+       rect.setAttributeNS(null, 'fill', '#'+Math.round(0xffffff * Math.random()).toString(16));
+       document.getElementById('svgcanvas').appendChild(rect);
+       x+=10;
+       y+=10;
+}
 
 
 var svg = (function($){
 
-	var initModule, newSection, getarray, addSection, newrack, drawRack,test;
+	var initModule, newSection, getarray, addSection, newrack, drawRack,test,drawPillar,myFunction;
 	var height,Width,length,depth,planks;
 	var svgns = "http://www.w3.org/2000/svg";
 	var sections = [];
@@ -45,6 +33,7 @@ var svg = (function($){
 
 	//config vars
 	var DefaultWidth;
+	var defaultPillarWidth;
 
 
 
@@ -54,6 +43,7 @@ var svg = (function($){
 
 	initModule = function(){
 		DefaultWidth = 100;
+		defaultPillarWidth = 5;
 	};
 
 	newrack = function(){
@@ -103,9 +93,31 @@ var svg = (function($){
 
 
 	drawRack = function(){
-
+		drawPillar();
+	}
+	
+	drawPillar= function(){
+		pillars.forEach(function(pillar) {
+			var rect = document.createElementNS(svgns, 'rect');
+			rect.setAttributeNS(null, 'name', pillar.name)
+			rect.setAttributeNS(null, 'x', pillar.position + 25)
+			rect.setAttributeNS(null, 'y', 25)
+			rect.setAttributeNS(null, 'height', pillar.height);
+			rect.setAttributeNS(null, 'width', defaultPillarWidth);
+			rect.setAttributeNS(null, 'fill', '#112112');
+			rect.setAttribute('onmouseover', 'myFunction('+ (pillar.position + 25) +','+ (pillar.height + 25) + ')');
+			document.getElementById('svgcanvas').appendChild(rect);
+		})
 	}
 
+	myFunction =function(x,y){
+		var z = document.getElementById("dropDown");
+		if (z.style.display === "none") {
+			z.style.display = "block";
+		}
+		z.style.marginTop=x+"px";
+		z.style.marginLeft=y+"px";
+	}
 
 	test = function(){
 		// test space for functiontesting
@@ -152,7 +164,7 @@ var svg = (function($){
 	}
 
 
-	return {initModule:initModule, newSection:newSection, getarray:getarray, addSection:addSection, newrack:newrack, drawRack:drawRack, test:test}
+	return {initModule:initModule, newSection:newSection, getarray:getarray, addSection:addSection, newrack:newrack, drawRack:drawRack, test:test, myFunction:myFunction}
 }(jQuery));
 
 $(function() {
