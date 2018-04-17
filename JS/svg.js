@@ -23,12 +23,13 @@ function addblock(){
 
 var svg = (function($){
 
-	var initModule, newSection, getarray, addSection, newrack, drawRack,test, ChangeRackDepth,drawPillar,myFunction;;
+	var initModule, newSection, getarray, addSection, newrack, drawRack,test, ChangeRackDepth,drawPillar,myFunction,drawPlanks;
 	var height,Width,length,depth,planks;
 	var svgns = "http://www.w3.org/2000/svg";
 	var sections = [];
 	var pillars = [];
 	var planks = [];
+
 	
 	var Hoogte,Breedte,Lengte,Diepte,Legborden;
 
@@ -36,6 +37,7 @@ var svg = (function($){
 	//config vars
 	var DefaultWidth;
 	var defaultPillarWidth;
+	var defaultPlankWidth;
 
 
 
@@ -45,7 +47,8 @@ var svg = (function($){
 
 	initModule = function(){
 		DefaultWidth = 100;
-		defaultPillarWidth = 5;
+		defaultPillarWidth = 4;
+		defaultPlankWidth = 4;
 	};
 
 	newrack = function(){
@@ -109,19 +112,50 @@ var svg = (function($){
 
 	drawRack = function(){
 		drawPillar();
+		drawPlanks();
 	}
 	
 	drawPillar= function(){
+		var hoogte = 0;
+		sections.forEach(function(section){
+			if(section.height > hoogte){
+				hoogte=section.height;
+			}
+		})
 		pillars.forEach(function(pillar) {
 			var rect = document.createElementNS(svgns, 'rect');
 			rect.setAttributeNS(null, 'name', pillar.name);
 			rect.setAttributeNS(null, 'x', pillar.position + 25);
-			rect.setAttributeNS(null, 'y', 25);
+			rect.setAttributeNS(null, 'y', hoogte + 25-pillar.height);
 			rect.setAttributeNS(null, 'height', pillar.height);
 			rect.setAttributeNS(null, 'width', defaultPillarWidth);
 			rect.setAttributeNS(null, 'fill', '#112112');
 			rect.setAttribute('onmouseover', 'svg.myFunction('+ (pillar.position + 25) +','+ (pillar.height + 25) + ')');
 			document.getElementById('svgcanvas').appendChild(rect);
+		})
+	}
+	drawPlanks = function(){
+		var i = 0;
+		var hoogte = 0;
+		var breedte = sections[i].width;
+		sections.forEach(function(section){
+			if(section.height > hoogte){
+				hoogte=section.height;
+			}
+		})
+		planks.forEach(function(section){
+			section.forEach(function(plank){
+				var rect = document.createElementNS(svgns, 'rect');
+				rect.setAttributeNS(null, 'name', plank.name);
+				rect.setAttributeNS(null, 'x', breedte * i + 25+2);
+				rect.setAttributeNS(null, 'y', hoogte + 15-plank.height);
+				rect.setAttributeNS(null, 'height', defaultPlankWidth);
+				rect.setAttributeNS(null, 'width', breedte);
+				rect.setAttributeNS(null, 'fill', '#454545');
+				rect.setAttribute('onmouseover', 'svg.myFunction('+ (pillars[i].position + 25) +','+ (pillars[i].height + 25) + ')');
+				document.getElementById('svgcanvas').appendChild(rect);
+			})
+			i++;
 		})
 	}
 	ChangeRackDepth = function(newdepth){
@@ -139,11 +173,11 @@ var svg = (function($){
 
 	myFunction =function(x,y){
 		var z = document.getElementById("dropDown");
-		if (z.style.display === "none") {
+		if (z.style.display == "none") {
 			z.style.display = "block";
 		}
-		z.style.marginTop=x+"px";
-		z.style.marginLeft=y+"px";
+		z.style.marginTop=y+"px";
+		z.style.marginLeft=x+"px";
 	}
 
 	test = function(){
@@ -151,7 +185,8 @@ var svg = (function($){
 
 		newSection(250,100,50,5);
 		newSection(150,100,50,5);
-		newSection(250,100,50,5);
+		newSection(150,100,50,4);
+		newSection(250,100,50,10);
 		prepRackPillar();
 		//return pillars;
 		prepRackPlanks();
