@@ -235,7 +235,7 @@ var svg = (function($){
 	}
 
 
-	return {initModule:initModule, newSection:newSection, getarray:getarray, addSection:addSection, newrack:newrack, drawRack:drawRack, test:test, myFunction:myFunction, ChangeRackDepth:ChangeRackDepth,ChangeHeightWidthSection:ChangeHeightWidthSection}
+	return {initModule:initModule, newSection:newSection, getarray:getarray, addSection:addSection, newrack:newrack, drawRack:drawRack, test:test, myFunction:myFunction, ChangeRackDepth:ChangeRackDepth,ChangeHeightWidthSection:ChangeHeightWidthSection, clearsvg:clearsvg}
 }(jQuery));
 
 $(function() {
