@@ -114,15 +114,16 @@ var svg = (function($){
 	drawPillar= function(){
 		pillars.forEach(function(pillar) {
 			var rect = document.createElementNS(svgns, 'rect');
-			rect.setAttributeNS(null, 'name', pillar.name)
-			rect.setAttributeNS(null, 'x', pillar.position + 25)
-			rect.setAttributeNS(null, 'y', 25)
+			rect.setAttributeNS(null, 'name', pillar.name);
+			rect.setAttributeNS(null, 'x', pillar.position + 25);
+			rect.setAttributeNS(null, 'y', 25);
 			rect.setAttributeNS(null, 'height', pillar.height);
 			rect.setAttributeNS(null, 'width', defaultPillarWidth);
 			rect.setAttributeNS(null, 'fill', '#112112');
 			rect.setAttribute('onmouseover', 'myFunction('+ (pillar.position + 25) +','+ (pillar.height + 25) + ')');
 			document.getElementById('svgcanvas').appendChild(rect);
 		})
+	}
 	ChangeRackDepth = function(newdepth){
 		sections.forEach(function(section){
 			section.depth = newdepth;
