@@ -23,11 +23,13 @@ function addblock(){
 
 var svg = (function($){
 
-	var initModule, newSection, getarray, addSection, newrack, drawRack,test,drawPillar,myFunction;
+	var initModule, newSection, getarray, addSection, newrack, drawRack,test, ChangeRackDepth,drawPillar,myFunction;;
 	var height,Width,length,depth,planks;
 	var svgns = "http://www.w3.org/2000/svg";
 	var sections = [];
 	var pillars = [];
+	var planks = [];
+	
 	var Hoogte,Breedte,Lengte,Diepte,Legborden;
 
 
@@ -89,8 +91,21 @@ var svg = (function($){
 		}
 	}
 
-
-
+	prepRackPlanks = function(){
+			sections.forEach(function(section){
+				var spaceInBetween = section.height/section.planks;
+				var sectionplanks = [];
+				
+				for(i=0;i<section.planks; i++){
+					if(i==0){
+						sectionplanks.push({name:"Plank"+(i+1),height:0});
+					}else{
+						sectionplanks.push({name:"Plank"+(i+1),height:(spaceInBetween*i)});
+					}
+				}
+				planks.push(sectionplanks);
+			});
+	}
 
 	drawRack = function(){
 		drawPillar();
@@ -108,6 +123,17 @@ var svg = (function($){
 			rect.setAttribute('onmouseover', 'myFunction('+ (pillar.position + 25) +','+ (pillar.height + 25) + ')');
 			document.getElementById('svgcanvas').appendChild(rect);
 		})
+	ChangeRackDepth = function(newdepth){
+		sections.forEach(function(section){
+			section.depth = newdepth;
+		});
+	}
+
+	ChangeHeightWidthSection = function(Section,Height,Width){
+		//Change values of selected Section
+		//Run prepRackPillar and prepRackPlanks again
+		//Clear SVG
+		//Redraw Rack
 	}
 
 	myFunction =function(x,y){
@@ -126,20 +152,16 @@ var svg = (function($){
 		newSection(150,100,50,5);
 		newSection(250,100,50,5);
 		prepRackPillar();
-		return pillars;
+		//return pillars;
+		prepRackPlanks();
+		//return planks;
+		return sections;
+
 	}
 
-
-
 	newSection = function(height,width,depth,planks){
-		var name = "section" + (sections.length+1);
-		var temp = {name:name, height:height, width:width, depth:depth, planks,planks};
-		sections.push(temp);
+		sections.push({name:"section" + (sections.length+1), height:height, width:width, depth:depth, planks,planks});
 	};
-
-
-
-
 
 
 	 getValuesFromHTML= function(){
@@ -164,7 +186,7 @@ var svg = (function($){
 	}
 
 
-	return {initModule:initModule, newSection:newSection, getarray:getarray, addSection:addSection, newrack:newrack, drawRack:drawRack, test:test, myFunction:myFunction}
+	return {initModule:initModule, newSection:newSection, getarray:getarray, addSection:addSection, newrack:newrack, drawRack:drawRack, test:test, myFunction:myFunction, ChangeRackDepth:ChangeRackDepth}
 }(jQuery));
 
 $(function() {
