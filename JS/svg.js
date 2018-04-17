@@ -23,7 +23,10 @@ function addblock(){
 
 var svg = (function($){
 
-	var initModule, newSection, getarray, addSection, newrack, drawRack,test, ChangeRackDepth,drawPillar,DropDown,drawPlanks, prepRackPillar, prepRackPlanks,ChangeHeightWidthSection;
+
+	var initModule, newSection, getarray, addSection, newrack;
+	var drawRack,test, ChangeRackDepth,drawPillar,DropDown,drawPlanks,prepRackPillar, prepRackPlanks,ChangeHeightWidthSection, clearsvg;
+
 	var height,Width,length,depth,planks;
 	var svgns = "http://www.w3.org/2000/svg";
 	var sections = [];
@@ -53,6 +56,7 @@ var svg = (function($){
 
 	newrack = function(){
 		getValuesFromHTML();
+		document.getElementById("invoertr").style.display = "none";
 		//calculate ammount of sections needed for default 100cm width.
 		//loop add all sections to list
 		//print all sections
@@ -172,6 +176,11 @@ var svg = (function($){
 			i++;
 		})
 	}
+
+	clearsvg = function(){
+		$("#svgcanvas").empty();
+	}
+
 	ChangeRackDepth = function(newdepth){
 		sections.forEach(function(section){
 			section.depth = newdepth;
@@ -285,7 +294,9 @@ var svg = (function($){
 	}
 
 
-	return {initModule:initModule, newSection:newSection, getarray:getarray, addSection:addSection, newrack:newrack, drawRack:drawRack, test:test, myFunction:DropDown, ChangeRackDepth:ChangeRackDepth ,ChangeHeightWidthSection:ChangeHeightWidthSection}
+	return {initModule:initModule, newSection:newSection, getarray:getarray, addSection:addSection, newrack:newrack,
+	 drawRack:drawRack, test:test, DropDown:DropDown, ChangeRackDepth:ChangeRackDepth,
+	 ChangeHeightWidthSection:ChangeHeightWidthSection, clearsvg:clearsvg}
 }(jQuery));
 
 $(function() {
