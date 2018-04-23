@@ -2,6 +2,8 @@
 <html  xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<script src="JS/Jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/2.6.3/svg.min.js"></script>
+		<script src="JS/svg.draggable.js"></script>
 		<script src="JS/Config.js"></script>
     	<link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
@@ -47,7 +49,7 @@
 						<option value="6">6</option>
 						</select></td>
 				<td>
-						<button onclick="svg.newrack();">add</button>
+						<button onclick="svgmodule.newrack();">add</button>
 				</td>
 			</tr>
 			<tr>
@@ -62,7 +64,7 @@
 												<label>hoogte:</label>
 											</td>
 											<td>
-												<select id="HoogteAanpassen" onchange="svg.getValuesFromDropDown()">
+												<select id="HoogteAanpassen" onchange="svgmodule.getValuesFromDropDown()">
 													<option value="100">100</option>
 													<option value="120">120</option>
 													<option value="150">150</option>
@@ -78,7 +80,7 @@
 												<label>breedte:</label>
 											</td>
 											<td>
-												<select id="BreedteAanpassen" onchange="svg.getValuesFromDropDown()">
+												<select id="BreedteAanpassen" onchange="svgmodule.getValuesFromDropDown()">
 													<option value="50">50</option>
 													<option value="100">100</option>
 													<option value="150">150</option>
@@ -90,7 +92,7 @@
 												<label>diepte:</label>
 											</td>
 											<td>
-												<select id = "DiepteAanpassen" onchange="svg.getValuesFromDropDown()">
+												<select id = "DiepteAanpassen" onchange="svgmodule.getValuesFromDropDown()">
 													<option value="20">20</option>
 													<option value="30">30</option>
 													<option value="40">40</option>
@@ -106,7 +108,7 @@
 												<label>aantal legborden:</label>
 											</td>
 											<td>
-												<select id = "LegbordenAanpassen" onchange="svg.getValuesFromDropDown()">
+												<select id = "LegbordenAanpassen" onchange="svgmodule.getValuesFromDropDown()">
 													<option value="1">1</option>
 													<option value="2">2</option>
 													<option value="3">3</option>
@@ -133,5 +135,5 @@
 	</body>
 
 
-<script src="JS/svg.js"></script>
+<script src="JS/svgmodule.js"></script>
 </html>

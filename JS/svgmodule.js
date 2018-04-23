@@ -21,7 +21,7 @@ function addblock(){
 }
 
 
-var svg = (function($){
+var svgmodule = (function($){
 
 
 	var initModule, newSection, getarray, addSection, newrack;
@@ -41,7 +41,7 @@ var svg = (function($){
 	var DefaultWidth;
 	var defaultPillarWidth;
 	var defaultPlankWidth;
-
+var draw = SVG('svgcanvas');
 
 
 
@@ -52,6 +52,7 @@ var svg = (function($){
 		DefaultWidth = 100;
 		defaultPillarWidth = 4;
 		defaultPlankWidth = 4;
+
 	};
 
 	newrack = function(){
@@ -73,12 +74,10 @@ var svg = (function($){
 		prepRackPillar();
 		prepRackPlanks();
 		drawRack();
-		console.log('hoi');
 	}
 
 	prepRackPillar = function(){
 		pillars = [];
-		console.log('hoi vanuit pillar');
 		var totalwidth = 0;
 		//calculates amount of pillars and where to place them.
 		// puts in array with pillar object(height,location)
@@ -108,7 +107,6 @@ var svg = (function($){
 
 	prepRackPlanks = function(){
 		planks = [];
-		console.log('hoi vanuit planks');
 			sections.forEach(function(section){
 				var spaceInBetween = section.height/section.planks;
 				var sectionplanks = [];
@@ -125,14 +123,11 @@ var svg = (function($){
 	}
 
 	drawRack = function(){
-		console.log('hoi vanuit draw');
-		console.log(sections);
 		drawPillar();
 		drawPlanks();
 	}
 	
 	drawPillar= function(){
-		console.log('hoi vanuit drawpillar');
 		var hoogte = 0;
 		sections.forEach(function(section){
 			if(section.height > hoogte){
@@ -148,13 +143,12 @@ var svg = (function($){
 			rect.setAttributeNS(null, 'height', pillar.height);
 			rect.setAttributeNS(null, 'width', defaultPillarWidth);
 			rect.setAttributeNS(null, 'fill', '#112112');
-			rect.setAttribute('onmouseover', 'svg.DropDown('+ (pillar.position + 25) +','+ (hoogte + 25) + ','+(i)+')');
+			rect.setAttribute('onmouseover', 'svgmodule.DropDown('+ (pillar.position + 25) +','+ (hoogte + 25) + ','+(i)+')');
 			document.getElementById('svgcanvas').appendChild(rect);
 			i++;
 		})
 	}
 	drawPlanks = function(){
-		console.log('hoi vanuit drawplanks');
 		var i = 0;
 		var hoogte = 0;
 		var breedte = sections[i].width;
@@ -164,21 +158,19 @@ var svg = (function($){
 				hoogte=section.height;
 			}
 		})
+
 		planks.forEach(function(section){
 			section.forEach(function(plank){
-				var rect = document.createElementNS(svgns, 'rect');
-				rect.setAttributeNS(null, 'name', plank.name);
-				rect.setAttributeNS(null, 'x', lengthFromSide);
-				rect.setAttributeNS(null, 'y', hoogte + 15-plank.height);
-				rect.setAttributeNS(null, 'height', defaultPlankWidth);
-				rect.setAttributeNS(null, 'width', breedte);
-				rect.setAttributeNS(null, 'fill', '#454545');
-				rect.setAttribute('onmouseover', 'svg.DropDown('+ (lengthFromSide) +','+ (hoogte + 25) + ','+(i)+')');
-				document.getElementById('svgcanvas').appendChild(rect);
+				var rect = draw.rect(breedte,defaultPlankWidth);
+				rect.attr({name: plank.name, x: lengthFromSide, y: hoogte + 15-plank.height, fill: '#454545'});
+				rect.draggable({minX: lengthFromSide, minY: hoogte-sections[i].height+25, maxX: lengthFromSide + sections[i].width, maxY: hoogte+20})
 			})		
 			lengthFromSide = lengthFromSide + sections[i].width;
 			i++;
-			breedte=sections[i].width;
+			if(sections[i] != null){
+				breedte=sections[i].width;
+			}
+			
 		})
 	}
 
@@ -194,10 +186,6 @@ var svg = (function($){
 	}
 
 	ChangeHeightWidthSection = function(Section,Height,Width,Planks){
-		//Change values of selected Section
-		//Run prepRackPillar and prepRackPlanks again
-		//Clear SVG
-		//Redraw Rack
 		for (var i = 0; i < sections.length; i++) {
 			console.log(sections[i].name);
 		        if (sections[i].name === Section) {
@@ -206,7 +194,6 @@ var svg = (function($){
 					sections[i].planks = Planks;
 		        }
 			}
-			console.log("hoi vanuit change height and width hoogte is " + Height );
 		clearsvg();
 		prepRackPillar();
 		prepRackPlanks();
@@ -231,7 +218,6 @@ var svg = (function($){
 		var diepte = document.getElementById('DiepteAanpassen');
 		var legborden = document.getElementById('LegbordenAanpassen');
 		var value = sections[j];
-		console.log(value);
 		for(var i = 0; i < 100 ;i++){
 			if(hoogte[i].text ==  value.height){
 				hoogte.selectedIndex = i;
@@ -275,7 +261,6 @@ var svg = (function($){
 	}
 
 	newSection = function(height,width,depth,planks){
-		console.log('hoi vanuit newsection');
 		sections.push({name:"sectie " + (sections.length+1), height:height, width:width, depth:depth, planks,planks});
 	};
 
@@ -291,7 +276,6 @@ var svg = (function($){
 		Diepte = Number(e.options[e.selectedIndex].value);
 		e = document.getElementById("Legborden");
 		Legborden = Number(e.options[e.selectedIndex].value);
-		//newSection(Hoogte,Lengte,Diepte,Legborden);  --Not Needed
 		Breedte = DefaultWidth;
 	}
 
@@ -309,7 +293,6 @@ var svg = (function($){
 		Sectie = "sectie " + (document.getElementById("dropDownNaam").value + 1); 
 		ChangeHeightWidthSection(Sectie,Hoogte,Breedte,Legborden);
 		ChangeRackDepth(Diepte);
-		console.log("hoi vanuit valuesfromdropdown sectie naam is " + Sectie);
 	}
 
 	getarray = function(){
@@ -326,6 +309,6 @@ var svg = (function($){
 
 $(function() {
 	//when done
-	svg.initModule();
+	svgmodule.initModule();
 
 })
