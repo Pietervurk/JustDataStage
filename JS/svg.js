@@ -25,7 +25,7 @@ var svg = (function($){
 
 
 	var initModule, newSection, getarray, addSection, newrack;
-	var drawRack,test, ChangeRackDepth,drawPillar,DropDown,drawPlanks,prepRackPillar, prepRackPlanks,ChangeHeightWidthSection, clearsvg;
+	var drawRack,test, ChangeRackDepth,drawPillar,DropDown,drawPlanks,prepRackPillar, prepRackPlanks,ChangeHeightWidthSection, clearsvg, getValuesFromDropDown;
 
 	var height,Width,length,depth,planks;
 	var svgns = "http://www.w3.org/2000/svg";
@@ -77,7 +77,8 @@ var svg = (function($){
 	}
 
 	prepRackPillar = function(){
-		console.log('hoi vanuit pilllar');
+		pillars = [];
+		console.log('hoi vanuit pillar');
 		var totalwidth = 0;
 		//calculates amount of pillars and where to place them.
 		// puts in array with pillar object(height,location)
@@ -85,27 +86,28 @@ var svg = (function($){
 		for(i=0; i<sections.length+1; i++){
 			
 			if(i == 0){ // first pole.
-				pillars.push({name:"pillar" + (pillars.length+1), height:sections[i].height, position:0});
+				pillars.push({name:"pilaar " + (pillars.length+1), height:sections[i].height, position:0});
 				totalwidth += sections[i].width;
 			}else if(i> 0 && i < sections.length){// every pillar inbetween
 				if(sections[i-1].height > sections[i].height){
-					pillars.push({name:"pillar"+(pillars.length+1), height:sections[i-1].height, position:totalwidth});
+					pillars.push({name:"pilaar "+(pillars.length+1), height:sections[i-1].height, position:totalwidth});
 					totalwidth += sections[i].width;
 					}else if(sections[i-1].height < sections[i].height){
-						pillars.push({name:"pillar"+(pillars.length+1), height:sections[i].height, position:totalwidth});
+						pillars.push({name:"pilaar "+(pillars.length+1), height:sections[i].height, position:totalwidth});
 						totalwidth += sections[i].width;
 					}else if(sections[i-1].height == sections[i].height){
-						pillars.push({name:"pillar"+(pillars.length+1), height:sections[i].height, position:totalwidth});
+						pillars.push({name:"pilaar "+(pillars.length+1), height:sections[i].height, position:totalwidth});
 						totalwidth += sections[i].width;
 					}
 				}else{//last pillar
 					//totalwidth += sections[i-1].width;
-						pillars.push({name:"pillar"+(pillars.length+1), height:sections[i-1].height, position:totalwidth});
+						pillars.push({name:"pilaar "+(pillars.length+1), height:sections[i-1].height, position:totalwidth});
 					}
 		}
 	}
 
 	prepRackPlanks = function(){
+		planks = [];
 		console.log('hoi vanuit planks');
 			sections.forEach(function(section){
 				var spaceInBetween = section.height/section.planks;
@@ -113,9 +115,9 @@ var svg = (function($){
 				
 				for(i=0;i<section.planks; i++){
 					if(i==0){
-						sectionplanks.push({name:"Plank"+(i+1),height:0});
+						sectionplanks.push({name:"Plank "+(i+1),height:0});
 					}else{
-						sectionplanks.push({name:"Plank"+(i+1),height:(spaceInBetween*i)});
+						sectionplanks.push({name:"Plank "+(i+1),height:(spaceInBetween*i)});
 					}
 				}
 				planks.push(sectionplanks);
@@ -146,7 +148,7 @@ var svg = (function($){
 			rect.setAttributeNS(null, 'height', pillar.height);
 			rect.setAttributeNS(null, 'width', defaultPillarWidth);
 			rect.setAttributeNS(null, 'fill', '#112112');
-			rect.setAttribute('onmouseover', 'svg.myFunction('+ (pillar.position + 25) +','+ (hoogte + 25) + ','+(1+i)+')');
+			rect.setAttribute('onmouseover', 'svg.DropDown('+ (pillar.position + 25) +','+ (hoogte + 25) + ','+(i)+')');
 			document.getElementById('svgcanvas').appendChild(rect);
 			i++;
 		})
@@ -156,6 +158,7 @@ var svg = (function($){
 		var i = 0;
 		var hoogte = 0;
 		var breedte = sections[i].width;
+		var lengthFromSide =25;
 		sections.forEach(function(section){
 			if(section.height > hoogte){
 				hoogte=section.height;
@@ -165,15 +168,17 @@ var svg = (function($){
 			section.forEach(function(plank){
 				var rect = document.createElementNS(svgns, 'rect');
 				rect.setAttributeNS(null, 'name', plank.name);
-				rect.setAttributeNS(null, 'x', breedte * i + 25+2);
+				rect.setAttributeNS(null, 'x', lengthFromSide);
 				rect.setAttributeNS(null, 'y', hoogte + 15-plank.height);
 				rect.setAttributeNS(null, 'height', defaultPlankWidth);
 				rect.setAttributeNS(null, 'width', breedte);
 				rect.setAttributeNS(null, 'fill', '#454545');
-				rect.setAttribute('onmouseover', 'svg.myFunction('+ (breedte * i + 25) +','+ (hoogte + 25) + ','+(1+i)+')');
+				rect.setAttribute('onmouseover', 'svg.DropDown('+ (lengthFromSide) +','+ (hoogte + 25) + ','+(i)+')');
 				document.getElementById('svgcanvas').appendChild(rect);
-			})
+			})		
+			lengthFromSide = lengthFromSide + sections[i].width;
 			i++;
+			breedte=sections[i].width;
 		})
 	}
 
@@ -185,9 +190,10 @@ var svg = (function($){
 		sections.forEach(function(section){
 			section.depth = newdepth;
 		});
+		console.log("veranderen van de diepte is nog best wel kut ");
 	}
 
-	ChangeHeightWidthSection = function(Section,Height,Width){
+	ChangeHeightWidthSection = function(Section,Height,Width,Planks){
 		//Change values of selected Section
 		//Run prepRackPillar and prepRackPlanks again
 		//Clear SVG
@@ -196,9 +202,15 @@ var svg = (function($){
 			console.log(sections[i].name);
 		        if (sections[i].name === Section) {
 		            sections[i].height = Height;
-		            sections[i].width = Width;
+					sections[i].width = Width;
+					sections[i].planks = Planks;
 		        }
-		    }
+			}
+			console.log("hoi vanuit change height and width hoogte is " + Height );
+		clearsvg();
+		prepRackPillar();
+		prepRackPlanks();
+		drawRack();
 	}
 
 	DropDown =function(x,y,i){
@@ -208,7 +220,8 @@ var svg = (function($){
 		}
 		z.style.marginTop=y+"px";
 		z.style.marginLeft=x+"px";
-		document.getElementById("dropDownNaam").innerHTML = "Wijzig sectie " + i;
+		document.getElementById("dropDownNaam").innerHTML = "wijzig " + sections[i].name;
+		document.getElementById("dropDownNaam").value = i;
 		DropDownEditor(i);
 	}
 
@@ -217,38 +230,33 @@ var svg = (function($){
 		var breedte = document.getElementById('BreedteAanpassen');
 		var diepte = document.getElementById('DiepteAanpassen');
 		var legborden = document.getElementById('LegbordenAanpassen');
-		var value = sections[j-1].height;
-		var options = hoogte.options;
-		for (var option, i = 0; option = options[i]; i++) {
-			if (option.value == value) {
+		var value = sections[j];
+		console.log(value);
+		for(var i = 0; i < 100 ;i++){
+			if(hoogte[i].text ==  value.height){
 				hoogte.selectedIndex = i;
-			break;
+				break;
 			}
 		}
-		var value = sections[j-1].width;
-		var options = breedte.options;
-		for (var option, i = 0; option = options[i]; i++) {
-			if (option.value == value) {
+		for(var i = 0; i < 100 ;i++){
+			if(breedte[i].value == value.width){
 				breedte.selectedIndex = i;
-			break;
+				break;
 			}
 		}
-		var value = sections[j-1].depth;
-		var options = diepte.options;
-		for (var option, i = 0; option = options[i]; i++) {
-			if (option.value == value) {
+		console.log(value);
+		for(var i = 0; i < 100 ;i++){
+			if(diepte[i].text ==  value.depth){
 				diepte.selectedIndex = i;
-			break;
+				break;
 			}
 		}
-		var value = sections[j-1].planks;
-		var options = legborden.options;
-		for (var option, i = 0; option = options[i]; i++) {
-			if (option.value == value) {
+		for(var i = 0; i < 100 ;i++){
+			if(legborden[i].value == value.planks){
 				legborden.selectedIndex = i;
-			break;
+				break;
 			}
-		}
+		}		
 	}
 
 	test = function(){
@@ -268,7 +276,7 @@ var svg = (function($){
 
 	newSection = function(height,width,depth,planks){
 		console.log('hoi vanuit newsection');
-		sections.push({name:"section" + (sections.length+1), height:height, width:width, depth:depth, planks,planks});
+		sections.push({name:"sectie " + (sections.length+1), height:height, width:width, depth:depth, planks,planks});
 	};
 
 
@@ -287,6 +295,23 @@ var svg = (function($){
 		Breedte = DefaultWidth;
 	}
 
+	getValuesFromDropDown= function(){
+		// waardes vanuit HTML dropdown ophalen.
+		var e;
+		e = document.getElementById("HoogteAanpassen");
+		Hoogte = Number(e.options[e.selectedIndex].value);
+		e = document.getElementById("BreedteAanpassen");
+		Breedte = Number(e.options[e.selectedIndex].value);
+		e = document.getElementById("DiepteAanpassen");
+		Diepte = Number(e.options[e.selectedIndex].value);
+		e = document.getElementById("LegbordenAanpassen");
+		Legborden = Number(e.options[e.selectedIndex].value);
+		Sectie = "sectie " + (document.getElementById("dropDownNaam").value + 1); 
+		ChangeHeightWidthSection(Sectie,Hoogte,Breedte,Legborden);
+		ChangeRackDepth(Diepte);
+		console.log("hoi vanuit valuesfromdropdown sectie naam is " + Sectie);
+	}
+
 	getarray = function(){
 		return sections;
 
@@ -296,7 +321,7 @@ var svg = (function($){
 
 	return {initModule:initModule, newSection:newSection, getarray:getarray, addSection:addSection, newrack:newrack,
 	 drawRack:drawRack, test:test, DropDown:DropDown, ChangeRackDepth:ChangeRackDepth,
-	 ChangeHeightWidthSection:ChangeHeightWidthSection, clearsvg:clearsvg}
+	 ChangeHeightWidthSection:ChangeHeightWidthSection, clearsvg:clearsvg, getValuesFromDropDown:getValuesFromDropDown}
 }(jQuery));
 
 $(function() {
