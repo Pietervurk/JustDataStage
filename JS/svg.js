@@ -134,12 +134,25 @@ var svg = (function($){
 	drawPillar= function(){
 		console.log('hoi vanuit drawpillar');
 		var hoogte = 0;
+		var j = 0
+		var i = 0;
 		sections.forEach(function(section){
 			if(section.height > hoogte){
 				hoogte=section.height;
 			}
 		})
-		var i = 0;
+		sections.forEach(function(section){
+			var rect = document.createElementNS(svgns, 'rect');
+			rect.setAttributeNS(null, 'name', section.name);
+			rect.setAttributeNS(null, 'x', pillars[j].position + 25);
+			rect.setAttributeNS(null, 'y', hoogte + 25-pillars[j].height);
+			rect.setAttributeNS(null, 'height', pillars[j].height);
+			rect.setAttributeNS(null, 'width', (pillars[j+1].position - pillars[j].position - 5) + (2 * defaultPillarWidth));
+			rect.setAttribute('onmouseover', 'svg.DropDown('+ (pillars[j].position + 25) +','+ (hoogte + 25) + ','+(j)+')');
+			rect.setAttribute('class', 'background');
+			document.getElementById("svgcanvas").appendChild(rect);
+			j++;
+		})
 		pillars.forEach(function(pillar) {
 			var rect = document.createElementNS(svgns, 'rect');
 			rect.setAttributeNS(null, 'name', pillar.name);
@@ -148,11 +161,13 @@ var svg = (function($){
 			rect.setAttributeNS(null, 'height', pillar.height);
 			rect.setAttributeNS(null, 'width', defaultPillarWidth);
 			rect.setAttributeNS(null, 'fill', '#112112');
-			rect.setAttribute('onmouseover', 'svg.DropDown('+ (pillar.position + 25) +','+ (hoogte + 25) + ','+(i)+')');
+			// rect.setAttribute('onmouseover', 'svg.DropDown('+ (pillar.position + 25) +','+ (hoogte + 25) + ','+(i)+')');
 			document.getElementById('svgcanvas').appendChild(rect);
 			i++;
 		})
+		
 	}
+
 	drawPlanks = function(){
 		console.log('hoi vanuit drawplanks');
 		var i = 0;
