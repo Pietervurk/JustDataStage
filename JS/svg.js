@@ -25,7 +25,7 @@ var svg = (function($){
 
 
 	var initModule, newSection, getarray, addSection, newrack;
-	var drawRack,test, ChangeRackDepth,drawPillar,DropDown,drawPlanks,prepRackPillar, prepRackPlanks,ChangeHeightWidthSection, clearsvg, getValuesFromDropDown;
+	var drawRack,test, ChangeRackDepth,drawPillar,DropDown,drawPlanks,prepRackPillar, prepRackPlanks,ChangeHeightWidthSection, clearsvg, getValuesFromDropDown, closeDropDown;
 
 	var height,Width,length,depth,planks;
 	var svgns = "http://www.w3.org/2000/svg";
@@ -225,6 +225,13 @@ var svg = (function($){
 		DropDownEditor(i);
 	}
 
+	closeDropDown =function(){
+		var z = document.getElementById("dropDown");
+		if (z.style.display == "block") {
+			z.style.display = "none";
+		}
+	}
+
 	DropDownEditor = function(j){
 		var hoogte = document.getElementById('HoogteAanpassen');
 		var breedte = document.getElementById('BreedteAanpassen');
@@ -321,7 +328,7 @@ var svg = (function($){
 
 	return {initModule:initModule, newSection:newSection, getarray:getarray, addSection:addSection, newrack:newrack,
 	 drawRack:drawRack, test:test, DropDown:DropDown, ChangeRackDepth:ChangeRackDepth,
-	 ChangeHeightWidthSection:ChangeHeightWidthSection, clearsvg:clearsvg, getValuesFromDropDown:getValuesFromDropDown}
+	 ChangeHeightWidthSection:ChangeHeightWidthSection, clearsvg:clearsvg, getValuesFromDropDown:getValuesFromDropDown, closeDropDown:closeDropDown}
 }(jQuery));
 
 $(function() {
