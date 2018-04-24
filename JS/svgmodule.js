@@ -129,8 +129,9 @@ var draw = SVG('svgcanvas');
 	
 	drawPillar= function(){
 		var hoogte = 0;
-		var j = 0
+		var j = 0;
 		var i = 0;
+		var voegSectieToeAfstand = 0;
 		sections.forEach(function(section){
 			if(section.height > hoogte){
 				hoogte=section.height;
@@ -160,6 +161,9 @@ var draw = SVG('svgcanvas');
 			rect.setAttribute('onmouseover', 'svgmodule.DropDown('+ (pillar.position + 25) +','+ (hoogte + 25) + ','+(i)+')');
 			document.getElementById('svgcanvas').appendChild(rect);
 			i++;
+			if(pillar.position > voegSectieToeAfstand){
+				voegSectieToeAfstand = pillar.position+35;
+			}
 		})
 		
 	}
