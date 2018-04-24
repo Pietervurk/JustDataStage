@@ -20,11 +20,11 @@ button{
 */
 button:hover, select:hover{
     box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
-    background-color: #e0e0ff
+    background-color: #ededff
 }
 
 .canvas{
-    background-color: #e7e7e7;
+    background-color: #FDFDFD;
     border-radius: 1px;
     border-top: 4px solid #F56E00;
 }
@@ -52,9 +52,24 @@ button:hover, select:hover{
     text-align: left;
 }
 .background{
-    background-color:#F56E00;
+    fill:#F56E00;
     opacity: 0;
 }
 .background:hover{
     opacity:0.05;
+}
+.sectieKnop{
+    background-color:#ededff ;
+    height: 200px;
+    line-height: 200px;
+    text-align: center;
+    width: 20px;
+    margin: 100px;
+    z-index: 2;
+    color:#292169;
+    font-weight: bold;
+}
+
+.sectieKnop:hover{
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2);
 }

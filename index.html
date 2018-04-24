@@ -3,10 +3,23 @@
 	<head>
 		<script src="JS/Jquery.min.js"></script>
 		<script src="JS/Config.js"></script>
-    	<link rel="stylesheet" type="text/css" href="css/style.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
 
 	<body>
+		<defs xmlns="http://www.w3.org/2000/svg">
+			<filter id="dropshadow" height="130%">
+				<feGaussianBlur in="SourceAlpha" stdDeviation="3"/> 
+				<feOffset dx="2" dy="2" result="offsetblur"/>
+				<feComponentTransfer>
+				<feFuncA type="linear" slope="0.2"/>
+				</feComponentTransfer>
+				<feMerge> 
+				<feMergeNode/>
+				<feMergeNode in="SourceGraphic"/> 
+				</feMerge>
+			</filter>
+		</defs>
 		<table>
 			<tr id="invoertr">
 				<td><select name="Hoogte" id="Hoogte">
@@ -53,6 +66,9 @@
 			<tr>
 				<td colspan="5" class="canvas" >
 					<div style="position:relative;" id="svgDiv">
+						<div class = "sectieKnop" style="position: absolute; display:block">
+							<span style="vertical-align:middle; display: inline-block; line-height: normal">▶</span>
+						</div>
 							<div class="dropdown-content" id="dropDown" style= "position:absolute; display:none;">
 									<p id="dropDownNaam">Wijzig sectie </p>
 									<p>(indien gewenst)</p>
