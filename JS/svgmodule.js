@@ -111,8 +111,36 @@ var svgmodule = (function($){
 	drawRack = function(){
 		drawPillar();
 		drawPlanks();
+		drawAddSection();
 	}
-	
+	drawAddSection = function(){
+		var x = pillars[pillars.length-1].position+37.5;
+		var y = 25;
+		var height = 0;
+		var width = 20;
+		stellingkast.secties.forEach(function(section){
+			if(section.height > height){
+				height = section.height;
+			}
+		})
+		var addSection = document.getElementById("addSection");
+		addSection.style.display = "block";
+		addSection.style.marginTop = y+"px";
+		addSection.style.marginLeft = x+"px";
+		addSection.style.height = height+"px";
+		addSection.style.lineHeight = height+"px";
+		addSection.style.width = width+"px";
+		addSection.setAttribute("onclick","svgmodule.addSection()")
+	}
+	addSection = function(){
+		section = stellingkast.secties[stellingkast.secties.length-1];
+		newSection(section.height,section.width,section.depth,section.planks);
+		prepRackPillar();
+		prepRackPlanks();
+		clearsvg();
+		drawRack();
+	}
+
 	drawPillar= function(){
 		var hoogte = 0;
 		var j = 0;
@@ -127,8 +155,8 @@ var svgmodule = (function($){
 			var rect = document.createElementNS(svgns, 'rect');
 			rect.setAttributeNS(null, 'name', section.name);
 			rect.setAttributeNS(null, 'x', pillars[j].position + 25);
-			rect.setAttributeNS(null, 'y', hoogte + 25-pillars[j].height);
-			rect.setAttributeNS(null, 'height', pillars[j].height);
+			rect.setAttributeNS(null, 'y', hoogte + 25-section.height);
+			rect.setAttributeNS(null, 'height', section.height);
 			rect.setAttributeNS(null, 'width', (pillars[j+1].position - pillars[j].position - 5) + (2 * defaultPillarWidth));
 			rect.setAttribute('onmouseover', 'svgmodule.DropDown('+ (pillars[j].position + 25) +','+ (hoogte + 25) + ','+(j)+')');
 			rect.setAttribute('class', 'background');
@@ -167,7 +195,7 @@ var svgmodule = (function($){
 		stellingkast.secties.forEach(function(section){
 			section.planken.forEach(function(plank){
 				var rect = draw.rect(section.width,defaultPlankWidth);
-				rect.attr({name: plank.name, x: lengthFromSide, y: hoogte + 15-plank.height, fill: '#454545'});
+				rect.attr({name: plank.name, x: lengthFromSide, y: hoogte + 15-plank.height, fill: '#454545', style:"cursor:row-resize"});
 				rect.draggable({minX: lengthFromSide, minY: hoogte-stellingkast.secties[i].height+25, maxX: lengthFromSide + stellingkast.secties[i].width, maxY: hoogte+20})
 			})		
 			lengthFromSide += section.width;
@@ -180,7 +208,11 @@ var svgmodule = (function($){
 	}
 
 	ChangeRackDepth = function(newdepth){
-			stellingkast.depth = newdepth;
+		stellingkast.depth = newdepth;
+		clearsvg();
+		prepRackPillar();
+		prepRackPlanks();
+		drawRack();
 	}
 
 	ChangeHeightWidthSection = function(Section,Height,Width,Planks){
@@ -225,7 +257,7 @@ var svgmodule = (function($){
 		var legborden = document.getElementById('LegbordenAanpassen');
 		var value = stellingkast.secties[j];
 		for(var i = 0; i < 100 ;i++){
-			if(hoogte[i].text ==  value.height){
+			if(hoogte[i].value ==  value.height){
 				hoogte.selectedIndex = i;
 				break;
 			}
@@ -237,7 +269,7 @@ var svgmodule = (function($){
 			}
 		}
 		for(var i = 0; i < 100 ;i++){
-			if(diepte[i].text ==  stellingkast.depth){
+			if(diepte[i].value ==  stellingkast.depth){
 				diepte.selectedIndex = i;
 				break;
 			}
