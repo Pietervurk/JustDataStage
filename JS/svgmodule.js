@@ -65,11 +65,9 @@ var draw = SVG('svgcanvas');
 		if(Lengte > DefaultWidth){ // variable amount of sections
 				for(i=0; i< Lengte/DefaultWidth; i++){
 					newSection(Hoogte,Breedte,Diepte,Legborden);
-					console.log(Hoogte,Breedte,Diepte,Legborden);
 				}
 		}else{ // single section
 			newSection(Hoogte,Breedte,Diepte,Legborden);
-			console.log(Hoogte,Breedte,Diepte,Legborden);
 		}
 		prepRackPillar();
 		prepRackPlanks();
@@ -144,7 +142,7 @@ var draw = SVG('svgcanvas');
 			rect.setAttributeNS(null, 'y', hoogte + 25-pillars[j].height);
 			rect.setAttributeNS(null, 'height', pillars[j].height);
 			rect.setAttributeNS(null, 'width', (pillars[j+1].position - pillars[j].position - 5) + (2 * defaultPillarWidth));
-			rect.setAttribute('onmouseover', 'svg.DropDown('+ (pillars[j].position + 25) +','+ (hoogte + 25) + ','+(j)+')');
+			rect.setAttribute('onmouseover', 'svgmodule.DropDown('+ (pillars[j].position + 25) +','+ (hoogte + 25) + ','+(j)+')');
 			rect.setAttribute('class', 'background');
 			document.getElementById("svgcanvas").appendChild(rect);
 			j++;
@@ -202,12 +200,10 @@ var draw = SVG('svgcanvas');
 		sections.forEach(function(section){
 			section.depth = newdepth;
 		});
-		console.log("veranderen van de diepte is nog best wel kut ");
 	}
 
 	ChangeHeightWidthSection = function(Section,Height,Width,Planks){
 		for (var i = 0; i < sections.length; i++) {
-			console.log(sections[i].name);
 		        if (sections[i].name === Section) {
 		            sections[i].height = Height;
 					sections[i].width = Width;
@@ -257,7 +253,6 @@ var draw = SVG('svgcanvas');
 				break;
 			}
 		}
-		console.log(value);
 		for(var i = 0; i < 100 ;i++){
 			if(diepte[i].text ==  value.depth){
 				diepte.selectedIndex = i;
