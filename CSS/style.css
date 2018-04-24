@@ -6,9 +6,11 @@ button, select{
     text-decoration: none;
     border-radius: 1px;
     margin-bottom: 3px;
-    border-bottom: 4px solid #9898D9;
+    /* border-bottom: 4px solid #9898D9; */
     color:#292169;
     font-weight: bold;
+    cursor:pointer;
+    border-radius:5px;
 }
 table{
     width: 100%;
@@ -69,6 +71,8 @@ button:hover, select:hover{
     color:#292169;
     font-weight: bold;
     cursor:pointer;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
 .sectieKnop:hover{
