@@ -171,8 +171,6 @@ var svgmodule = (function($){
 			rect.setAttributeNS(null, 'height', pillar.height);
 			rect.setAttributeNS(null, 'width', defaultPillarWidth);
 			rect.setAttributeNS(null, 'fill', '#112112');
-
-			rect.setAttribute('onmouseover', 'svgmodule.DropDown('+ (pillar.position + 25) +','+ (hoogte + 25) + ','+(i)+')');
 			document.getElementById('svgcanvas').appendChild(rect);
 			i++;
 			if(pillar.position > voegSectieToeAfstand){
