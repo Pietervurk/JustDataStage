@@ -40,6 +40,7 @@ var svgmodule = (function($){
 	var DefaultWidth;
 	var defaultPillarWidth;
 	var defaultPlankWidth;
+	var currentSection = 0;
 	var draw = SVG('svgcanvas');
 
 	initModule = function(){
@@ -140,6 +141,13 @@ var svgmodule = (function($){
 		clearsvg();
 		drawRack();
 	}
+	removeSection = function(){
+		stellingkast.secties.splice(currentSection, 1);
+		prepRackPillar();
+		prepRackPlanks();
+		clearsvg();
+		drawRack();
+	}
 
 	drawPillar= function(){
 		var hoogte = 0;
@@ -214,12 +222,14 @@ var svgmodule = (function($){
 	}
 
 	ChangeHeightWidthSection = function(Section,Height,Width,Planks){
+		i=0;
 		stellingkast.secties.forEach(function(section){
-			if (section.name === Section) {
+			if (i == Section) {
 				section.height = Height;
 				section.width = Width;
 				section.planks = Planks;
 			}
+			i++
 		})
 		clearsvg();
 		prepRackPillar();
@@ -238,7 +248,9 @@ var svgmodule = (function($){
 			document.getElementById("dropDownNaam").innerHTML = "wijzig " + stellingkast.secties[i].name;
 			document.getElementById("dropDownNaam").value = i;
 			DropDownEditor(i);
+			currentSection = i;
 		}
+		
 	}
 
 	closeDropDown =function(){
@@ -325,7 +337,7 @@ var svgmodule = (function($){
 		Diepte = Number(e.options[e.selectedIndex].value);
 		e = document.getElementById("LegbordenAanpassen");
 		Legborden = Number(e.options[e.selectedIndex].value);
-		Sectie = "sectie " + (document.getElementById("dropDownNaam").value + 1); 
+		Sectie = document.getElementById("dropDownNaam").value;
 		ChangeHeightWidthSection(Sectie,Hoogte,Breedte,Legborden);
 		ChangeRackDepth(Diepte);
 	}
