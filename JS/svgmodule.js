@@ -1,62 +1,57 @@
-//Config 
-
-
-
-
-// test code voor svg
-
-
-
-
-function addblock(){
-	var rect = document.createElementNS(svgns, 'rect');
-       rect.setAttributeNS(null, 'x', x);
-       rect.setAttributeNS(null, 'y', y);
-       rect.setAttributeNS(null, 'height', '10');
-       rect.setAttributeNS(null, 'width', '10');
-       rect.setAttributeNS(null, 'fill', '#'+Math.round(0xffffff * Math.random()).toString(16));
-       document.getElementById('svgcanvas').appendChild(rect);
-       x+=10;
-       y+=10;
-}
-
-
 var svgmodule = (function($){
+	
+	test = function(){
+		// test space for functiontesting
 
+		newSection(250,100,50,5);
+		newSection(150,100,50,5);
+		newSection(150,100,50,4);
+		newSection(250,100,50,10);
+		prepRackPlanks();
+		prepRackPillar();
+		drawRack();
+		return stellingkast;
+
+	}
 
 	var initModule, newSection, getarray, addSection, newrack;
 	var drawRack,test, ChangeRackDepth,drawPillar,DropDown,drawPlanks,prepRackPillar, prepRackPlanks,ChangeHeightWidthSection, clearsvg, getValuesFromDropDown, closeDropDown;
 
-	var height,Width,length,depth,planks;
+	//svg variabelen
 	var svgns = "http://www.w3.org/2000/svg";
+	var draw = SVG('svgcanvas');
+
+	//variabelen die te maken hebben met de stellingkast
 	var stellingkast = [];
 	stellingkast.secties = [];
 	stellingkast.depth = 0;
 	var pillars = [];
 
+	//variabelen om tijdelijk de stellingkast variabelen op te slaan
 	var Hoogte,Breedte,Lengte,Diepte,Legborden;
-
-	//config vars
+	var height,Width,length,depth,planks;
+	
+	//default variabelen
 	var DefaultWidth;
 	var defaultPillarWidth;
 	var defaultPlankWidth;
-	var currentSection = 0;
-	var draw = SVG('svgcanvas');
-
+	var currentSection;
+	
+	//deze functie initialiseerd de default waarden
 	initModule = function(){
 		DefaultWidth = 100;
 		defaultPillarWidth = 4;
 		defaultPlankWidth = 4;
+		currentSection = 0;
 
 	};
 
+	//deze functie maakt de stellingkast met de waarden die aan het begin zijn ingevoerd
 	newrack = function(){
 		getValuesFromHTML();
 		document.getElementById("invoertr").style.display = "none";
 		//calculate ammount of secties needed for default 100cm width.
 		//loop add all secties to list
-		//print all secties
-
 		if(Lengte > DefaultWidth){ // variabele aantal secties
 				for(i=0; i< Lengte/DefaultWidth; i++){
 					newSection(Hoogte,Breedte,Diepte,Legborden);
@@ -64,6 +59,7 @@ var svgmodule = (function($){
 		}else{ // single section
 			newSection(Hoogte,Breedte,Diepte,Legborden);
 		}
+		//tekent de stellingkast
 		prepRackPlanks();
 		prepRackPillar();
 		drawRack();
@@ -114,6 +110,7 @@ var svgmodule = (function($){
 		drawPlanks();
 		drawAddSection();
 	}
+
 	drawAddSection = function(){
 		var x = pillars[pillars.length-1].position+37.5;
 		var y = 25;
@@ -292,25 +289,10 @@ var svgmodule = (function($){
 		}		
 	}
 
-	test = function(){
-		// test space for functiontesting
-
-		newSection(250,100,50,5);
-		newSection(150,100,50,5);
-		newSection(150,100,50,4);
-		newSection(250,100,50,10);
-		prepRackPlanks();
-		prepRackPillar();
-		drawRack();
-		return stellingkast;
-
-	}
-
 	newSection = function(height,width,depth,planks){
 		stellingkast.secties.push({name:"sectie " + (stellingkast.secties.length + 1), height:height, width:width, planks:planks, planken:[]});
 		stellingkast.depth = depth;
 	};
-
 
 	 getValuesFromHTML= function(){
 		// waardes vanuit HTML ophalen.
@@ -341,13 +323,6 @@ var svgmodule = (function($){
 		ChangeHeightWidthSection(Sectie,Hoogte,Breedte,Legborden);
 		ChangeRackDepth(Diepte);
 	}
-
-	getarray = function(){
-		return stellingkast.secties;
-
-
-	}
-
 
 	return {initModule:initModule, newSection:newSection, getarray:getarray, addSection:addSection, newrack:newrack,
 	 drawRack:drawRack, test:test, DropDown:DropDown, ChangeRackDepth:ChangeRackDepth,
