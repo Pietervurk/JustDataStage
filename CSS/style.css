@@ -145,3 +145,44 @@ background-size:100%;
     margin-top: 10px;
     margin-left: 10px;
 }
+
+#alert{
+    display:none;
+    position:fixed;
+    /* background-color: lightgreen; */
+    background-color: lightcoral;
+    z-index:3;
+    height:50px;
+    width:70%;
+    line-height: 50px;
+    vertical-align: middle;
+    text-align: center;
+    margin-left:15%;
+    margin-right:15%;
+    opacity: 0.75;
+}
+#x{
+    font-weight:bold;
+    font-family: 'Calibri';
+    font-size:15px;
+    top:0;
+    right:0;
+    padding:10px;
+    position:absolute;
+    float:right;
+    border-radius:50px;
+    width: 10px;
+    height: 10px;
+    line-height: 10px;
+    background-color:rgba(0,0,0,0);
+    text-align: center;
+    box-shadow: inset 0 0 0 10px rgba(0,0,0,0);
+    transition:all 0.3s ease;
+    cursor:pointer;
+    
+}
+#x:hover{
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius:50px;
+    box-shadow: inset 0 0 0 0px rgba(0,0,0,0);
+}
