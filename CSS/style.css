@@ -130,3 +130,24 @@ background-size:100%;
     border-radius:50px;
     box-shadow: inset 0 0 0 0px #f9f9f9;
 }
+
+.accessoiresdiv{
+    background-color: #CCCCCC;
+    width: 500px;
+    height: 100px;
+}
+.achterwand{
+    background-color: #EEEEEE;
+    width: 50px;
+    height: 10px;
+}
+.zijwand{
+    background-color: #EEEEEE;
+    width: 50px;
+    height: 10px;
+}
+.schuifdeur{
+    background-color: #EEEEEE;
+    width: 50px;
+    height: 10px;
+}
