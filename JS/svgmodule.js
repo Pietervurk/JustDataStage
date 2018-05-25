@@ -14,8 +14,10 @@ var svgmodule = (function($){
 
 	}
 
+
 	var initModule, newSection, getarray, addSection, newrack, drawArrows;
-	var drawRack,test, ChangeRackDepth,drawPillar,DropDown,drawPlanks,prepRackPillar, prepRackPlanks,ChangeHeightWidthSection, clearsvg, getValuesFromDropDown, closeDropDown, drawWeight, removeWeight, removeAlert,drawAlert;
+	var drawRack,test, ChangeRackDepth,drawPillar,DropDown,drawPlanks,prepRackPillar, prepRackPlanks,ChangeHeightWidthSection, clearsvg, getValuesFromDropDown, closeDropDown, drawWeight, removeWeight, removeAlert,drawAlert, sectionLocation,test2;
+
 
 	//svg variabelen
 	var svgns = "http://www.w3.org/2000/svg";
@@ -24,6 +26,7 @@ var svgmodule = (function($){
 	//variabelen die te maken hebben met de stellingkast
 	var stellingkast = [];
 	stellingkast.secties = [];
+	//stellingkast.accesoires = []; tijdelijk overbodig. is voor slepen accesoires.
 	stellingkast.depth = 0;
 	var pillars = [];
 	var maxHoogte=0;
@@ -425,13 +428,59 @@ var svgmodule = (function($){
 		ChangeRackDepth(Diepte);
 	}
 
-	return {initModule:initModule, newSection:newSection, getarray:getarray, addSection:addSection, newrack:newrack, removeAlert:removeAlert, drawArrows:drawArrows,
+
+	//sectionLocation = function(){
+
+	// Tijdelijk overbodig. is voor slepen van accesoires.
+
+	//	var selectedSection;
+	//	pillars.forEach(function(pillar){
+	//		if(event.pageX-40 > pillar.position){
+	//			selectedSection = pillar.name.substr(7);
+	//		}else{
+	//		}
+			
+	//	})
+	///	console.log(selectedSection);
+	//	stellingkast.accesoires.sectionaccesoires = [{position:0}];
+	//	stellingkast.accesoires.sectionaccesoires = [{position:1}];
+
+	//	stellingkast.accesoires.forEach(function(sectionaccesoires){
+	//		console.log(sectionaccesoires.position);
+	//	})
+		//stellingkast.accesoires.push({sectionaccesoires: []});
+		//stellingkast.accesoires.sectionaccesoires.push({position:1});
+		//add item to array
+		// create draw function for accesoires
+		// reload svg
+	//}
+
+
+	test2= function(){
+		console.log(stellingkast);
+	}
+	return {initModule:initModule, newSection:newSection, getarray:getarray, addSection:addSection, newrack:newrack,removeAlert:removeAlert, drawArrows:drawArrows,
 	 drawRack:drawRack, test:test, DropDown:DropDown, ChangeRackDepth:ChangeRackDepth, drawWeight:drawWeight, removeWeight:removeWeight, drawAlert:drawAlert,
-	 ChangeHeightWidthSection:ChangeHeightWidthSection, clearsvg:clearsvg, getValuesFromDropDown:getValuesFromDropDown, closeDropDown:closeDropDown}
+	 ChangeHeightWidthSection:ChangeHeightWidthSection, clearsvg:clearsvg, getValuesFromDropDown:getValuesFromDropDown, closeDropDown:closeDropDown,
+	 sectionLocation,test2:test2}
 }(jQuery));
 
 $(function() {
 	//when done
 	svgmodule.initModule();
+	    $( "#draggable" ).draggable();
+
+
+	    //tijdelijk overbodig. is voor slepen accesoires.
+	//    $( ".accessoiresdiv" )
+    // .mouseup(function(event) {
+    //	svgmodule.sectionLocation();    
+    // })
+
+
+    // functie voor locatie muis bepalen.
+//$("html").mousemove(function(){
+//  	setInterval(console.log(event.pageX-40), 1000);
+ // })
 
 })
