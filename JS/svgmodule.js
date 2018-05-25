@@ -295,8 +295,8 @@ var svgmodule = (function($){
 			breedte += section.width+defaultPillarWidth;
 		})
 		var section= stellingkast.secties;
-		horizontalSpan.innerHTML=(breedte + defaultPillarWidth)+" meter";
-		verticalSpan.innerHTML=hoogte + " meter";
+		horizontalSpan.innerHTML=(breedte + defaultPillarWidth)+" cm";
+		verticalSpan.innerHTML=hoogte + " cm";
 		horizontalArrow.style.width=(breedte + defaultPillarWidth) + "px";
 		horizontalArrow.style.top=10+ "px";
 		horizontalArrow.style.left=25+ "px";
