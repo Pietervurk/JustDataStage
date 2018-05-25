@@ -16,7 +16,7 @@ var svgmodule = (function($){
 
 
 	var initModule, newSection, getarray, addSection, newrack, drawArrows;
-	var drawRack,test, ChangeRackDepth,drawPillar,DropDown,drawPlanks,prepRackPillar, prepRackPlanks,ChangeHeightWidthSection, clearsvg, getValuesFromDropDown, closeDropDown, drawWeight, removeWeight, removeAlert,drawAlert, sectionLocation,test2;
+	var drawRack,test, ChangeRackDepth,drawPillar,DropDown,drawPlanks,prepRackPillar, prepRackPlanks,ChangeHeightWidthSection, clearsvg, getValuesFromDropDown, closeDropDown, drawWeight, removeWeight, removeAlert,drawAlert, sectionLocation,test2, calculatePrice;
 
 
 	//svg variabelen
@@ -465,13 +465,27 @@ var svgmodule = (function($){
 	//}
 
 
+	calculatePrice = function(){
+		var pillarAmmount, pillarHeight, plankAmmount, plankHeight, depth, totalPrice;
+		pillarAmount = stellingkast.secties.Length+1;
+		totalPrice = 0;
+		stellingkast.secties.forEach(function(sectie){
+			totalPrice += sectie.width+stellingkast.depth*sectie.planks;
+		})
+		pillars.forEach(function(pillar){
+			totalPrice += pillar.height;
+		})
+		console.log(totalPrice);
+	}
+
+
 	test2= function(){
-		console.log(stellingkast);
+		console.log(pillars);
 	}
 	return {initModule:initModule, newSection:newSection, getarray:getarray, addSection:addSection, newrack:newrack,removeAlert:removeAlert, drawArrows:drawArrows,
 	 drawRack:drawRack, test:test, DropDown:DropDown, ChangeRackDepth:ChangeRackDepth, drawWeight:drawWeight, removeWeight:removeWeight, drawAlert:drawAlert,
 	 ChangeHeightWidthSection:ChangeHeightWidthSection, clearsvg:clearsvg, getValuesFromDropDown:getValuesFromDropDown, closeDropDown:closeDropDown,
-	 sectionLocation,test2:test2}
+	 sectionLocation,test2:test2, calculatePrice:calculatePrice}
 }(jQuery));
 
 $(function() {
