@@ -38,12 +38,6 @@ button:active, select:active{
     background-size:100%;
 }
 
-.canvas{
-    background-color: #FDFDFD;
-    border-radius: 1px;
-    border-top: 4px solid #F56E00;
-}
-
 .dropdown {
     position: relative;
     display: inline-block;
@@ -261,4 +255,35 @@ background-size:100%;
     width: 50px;
     height: 10px;
 }
+.configuratie-div{
+    background-color: #FDFDFD;
+    font-family: 'calibri';
+}
+.prijs{
+    width:100%;
+    text-align:left;
+    background-color:#ededff;
+    border-radius:0px;
+}
+.configuratie-td{
+    background-color: #FDFDFD;
+    border-radius: 0px;
+    border: 1px solid black;
+    border-top: 4px solid #F56E00;
 
+}
+.invisible{
+    background-color: #00000000;
+    color:#00000000;
+}
+.invisible:hover{
+    background-color: #00000000;
+    color:#00000000;
+    box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0);
+}
+.canvas{
+    background-color: #FDFDFD;
+    border-radius: 0px;
+    /* border: 1px solid black; */
+    border-top: 4px solid #F56E00;
+}

@@ -54,6 +54,7 @@ var svgmodule = (function($){
 	newrack = function(){
 		getValuesFromHTML();
 		document.getElementById("invoertr").style.display = "none";
+		document.getElementById("invisible-row").style.display = "none";
 		//calculate ammount of secties needed for default 100cm width.
 		//loop add all secties to list
 		if(Lengte > DefaultWidth){ // variabele aantal secties
@@ -284,6 +285,9 @@ var svgmodule = (function($){
 		var verticalArrow = document.getElementById("verticalArrow");
 		var horizontalSpan = document.getElementById("horizontalSpan");
 		var verticalSpan = document.getElementById("verticalSpan");
+		var totaalLengte = document.getElementById("totaalLengte");
+		var totaalHoogte = document.getElementById("totaalHoogte");
+		var totaalDiepte = document.getElementById("totaalDiepte");
 		//horizontal (0,0) = (0,0) vertical (0,0) = (0,-15) meaning that for the vertical top you have to subtract 15
 		var hoogte = 0;
 		var breedte = 0;
@@ -305,6 +309,11 @@ var svgmodule = (function($){
 		verticalArrow.style.width=hoogte + "px";
 		verticalArrow.style.top=(25-15)+ "px";
 		verticalArrow.style.left=10+ "px";
+
+		totaalLengte.innerHTML=(breedte + defaultPillarWidth);
+		totaalHoogte.innerHTML=hoogte;
+		totaalDiepte.innerHTML=stellingkast.depth;
+
 	}
 
 	clearsvg = function(){

@@ -28,7 +28,40 @@
 		<div id="x" onclick="svgmodule.removeAlert()">X</div>
 		<span id="alert-span">hoi</span>
 	</div>
-	<table>
+	<table style="width:15%; float:left; height:100%;">
+		<tr id="invisible-row">
+				<td>
+					<button class="invisible">add</button>
+				</td>
+		</tr>
+		<tr>
+		<td class="configuratie-td">
+			<div class="configuratie-div">
+					
+					<h2>deze Configuratie:</h2><br>
+					<table>
+						<tr>
+							<td>Lengte:</td>
+							<td><span id="totaalLengte"></span> cm</td>
+						</tr>
+						<tr>
+							<td>Hoogte:</td>
+							<td><span id="totaalHoogte"></span> cm</td>
+						</tr>
+						<tr>
+							<td>Diepte:</td>
+							<td><span id="totaalDiepte"></span> cm</td>
+						</tr>
+					</table>
+					<div class="prijs">
+					<h2>Prijs:</h2>
+					<h3>€<span id="totaalPrijs"></span></h3>
+					</div>
+			</div>
+		</td>
+		</tr>
+	</table>
+	<table style="width:85%; float:right;height:100%;">
 		<tr id="invoertr">
 			<td>
 				<select name="Hoogte" id="Hoogte">
@@ -79,8 +112,8 @@
 				<button onclick="svgmodule.newrack()">add</button>
 			</td>
 		</tr>
-		<tr>
-			<td colspan="5" class="canvas">
+		<tr >			
+			<td colspan="5" class="canvas">				
 				<div style="position:relative;" id="svgDiv">
 					<div id="addSection" class="sectieKnop" style="position: absolute; display:none">
 						<span class="sectieKnopSpan">
@@ -190,7 +223,7 @@
 							</tr>
 						</table>
 					</div>
-					<svg width="1000" height="750" id="svgcanvas" xmlns="http://www.w3.org/2000/svg" onclick="svgmodule.closeDropDown()" />
+					<svg  width="1000"height="750" id="svgcanvas" xmlns="http://www.w3.org/2000/svg" onclick="svgmodule.closeDropDown()" />
 				</div>
 			</td>
 
