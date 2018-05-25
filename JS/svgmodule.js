@@ -14,8 +14,10 @@ var svgmodule = (function($){
 
 	}
 
-	var initModule, newSection, getarray, addSection, newrack;
-	var drawRack,test, ChangeRackDepth,drawPillar,DropDown,drawPlanks,prepRackPillar, prepRackPlanks,ChangeHeightWidthSection, clearsvg, getValuesFromDropDown, closeDropDown, sectionLocation,test2;
+
+	var initModule, newSection, getarray, addSection, newrack, drawArrows;
+	var drawRack,test, ChangeRackDepth,drawPillar,DropDown,drawPlanks,prepRackPillar, prepRackPlanks,ChangeHeightWidthSection, clearsvg, getValuesFromDropDown, closeDropDown, drawWeight, removeWeight, removeAlert,drawAlert, sectionLocation,test2;
+
 
 	//svg variabelen
 	var svgns = "http://www.w3.org/2000/svg";
@@ -27,6 +29,7 @@ var svgmodule = (function($){
 	//stellingkast.accesoires = []; tijdelijk overbodig. is voor slepen accesoires.
 	stellingkast.depth = 0;
 	var pillars = [];
+	var maxHoogte=0;
 
 	//variabelen om tijdelijk de stellingkast variabelen op te slaan
 	var Hoogte,Breedte,Lengte,Diepte,Legborden;
@@ -41,7 +44,7 @@ var svgmodule = (function($){
 	//deze functie initialiseerd de default waarden
 	initModule = function(){
 		DefaultWidth = 100;
-		defaultPillarWidth = 4;
+		defaultPillarWidth = 5;
 		defaultPlankWidth = 4;
 		currentSection = -1;
 
@@ -80,29 +83,36 @@ var svgmodule = (function($){
 				totalwidth += stellingkast.secties[i].width;
 			}else if(i> 0 && i < stellingkast.secties.length){// every pillar inbetween
 				if(stellingkast.secties[i-1].height > stellingkast.secties[i].height){
-					pillars.push({name:"pilaar "+(pillars.length+1), height:stellingkast.secties[i-1].height, position:totalwidth});
+					pillars.push({name:"pilaar "+(pillars.length+1), height:stellingkast.secties[i-1].height, position:totalwidth+(i*defaultPillarWidth)});
 					totalwidth += stellingkast.secties[i].width;
 					}else if(stellingkast.secties[i-1].height < stellingkast.secties[i].height){
-						pillars.push({name:"pilaar "+(pillars.length+1), height:stellingkast.secties[i].height, position:totalwidth});
+						pillars.push({name:"pilaar "+(pillars.length+1), height:stellingkast.secties[i].height, position:totalwidth+(i*defaultPillarWidth)});
 						totalwidth += stellingkast.secties[i].width;
 					}else if(stellingkast.secties[i-1].height == stellingkast.secties[i].height){
-						pillars.push({name:"pilaar "+(pillars.length+1), height:stellingkast.secties[i].height, position:totalwidth});
+						pillars.push({name:"pilaar "+(pillars.length+1), height:stellingkast.secties[i].height, position:totalwidth+(i*defaultPillarWidth)});
 						totalwidth += stellingkast.secties[i].width;
 					}
 				}else{//last pillar
 					//totalwidth += stellingkast.secties[i-1].width;
-						pillars.push({name:"pilaar "+(pillars.length+1), height:stellingkast.secties[i-1].height, position:totalwidth});
+						pillars.push({name:"pilaar "+(pillars.length+1), height:stellingkast.secties[i-1].height, position:totalwidth+(i*defaultPillarWidth)});
 					}
 		}
 	}
 
 	prepRackPlanks = function(){
 		stellingkast.secties.forEach(function(section){
-			section.planken =[];
-			var hoogteverschil = section.height/section.planks;
-			for (var i = 1; i <= section.planks; i++) {
-				 section.planken.push({name:("plank "+ i) , height:hoogteverschil*(i-1)});
+			j=parseInt(section.name.replace("sectie ", ""))
+			i=1;
+			if (section.planken.length == 0){
+				var hoogteverschil = section.height/section.planks;
+				while (i <= section.planks) {
+					
+						section.planken.push({name:("plank "+j+"."+i) , height:hoogteverschil*(i-1)});
+						i++;
+					}
+				
 			}
+			j++;
 		});
 	}
 
@@ -110,6 +120,7 @@ var svgmodule = (function($){
 		drawPillar();
 		drawPlanks();
 		drawAddSection();
+		drawArrows();
 	}
 
 	drawAddSection = function(){
@@ -131,28 +142,85 @@ var svgmodule = (function($){
 		addSection.style.width = width+"px";
 		addSection.setAttribute("onclick","svgmodule.addSection()")
 	}
+	drawWeight = function(plankname){
+		var weightdiv = document.getElementById("weight");
+		var weightspan = document.getElementById("weightspan");
+		if(stellingkast.depth <= 50){
+			weightspan.innerHTML = 80;
+		}else{
+			weightspan.innerHTML = 150;
+		}
+		var plank=document.getElementsByName(plankname)[0];
+		// var plank=document.getElementById(id);
+		var x=plank.x.baseVal.value;
+		var y=plank.y.animVal.value;
+		weightdiv.style.display = "inline-block";
+		weightdiv.style.marginTop = (y-25) + "px";
+		weightdiv.style.marginLeft = (x+5) + "px";
+		savePlankHeight(y,plankname);
+	}
+	removeWeight = function(){
+		var weightdiv = document.getElementById("weight");
+		setTimeout(function() {
+			weightdiv.style.display = "none"
+		  }, 500);
+		;
+	}
+
+	savePlankHeight = function(y,plankname){
+		stellingkast.secties.forEach(function(section){
+			section.planken.forEach(function(plank){
+				if(plank.name == plankname){
+					
+					plank.height = -y+section.height+15+(maxHoogte-section.height);;
+				}
+			})
+		})
+	}
+
 	addSection = function(){
 		section = stellingkast.secties[stellingkast.secties.length-1];
-		newSection(section.height,section.width,section.depth,section.planks);
+		newSection(section.height,section.width,stellingkast.depth,section.planks);
 		prepRackPillar();
 		prepRackPlanks();
 		clearsvg();
 		drawRack();
 	}
 	removeSection = function(){
-		
-		console.log("de stellingkast heeft "+stellingkast.secties.length+" secties")
 		if(stellingkast.secties.length > 1 && stellingkast.secties.length > currentSection){
-			console.log("removing section with index " + currentSection);
+			//drawAlert("removing section with index " + currentSection,0,true)
 			stellingkast.secties.splice(currentSection, 1);
 		}else{
-			console.log("can't delete current section because it either is the last one standing or it is already deleted")
+			drawAlert("can't delete current section because it either is the last one standing or it is already deleted",0,false);
 		}
 
 		prepRackPillar();
 		prepRackPlanks();
 		clearsvg();
 		drawRack();
+	}
+	drawAlert=function(text, delay, boolean){
+		//delay 0 is geen delay, boolean true is good alert boolean flase is error alert
+		var alert = document.getElementById("alert");
+		var alertSpan = document.getElementById("alert-span");
+		alertSpan.innerHTML=text;
+		if (boolean==true){
+			alert.style.backgroundColor="lightgreen";
+		}else{
+			alert.style.backgroundColor="lightcoral";
+		}
+		alert.style.display="inline-block";
+		if(delay!=0){
+			setTimeout(function() {
+			alert.style.display = "none"
+			}, delay);
+		}
+		
+
+	}
+	removeAlert=function(){
+		var alert = document.getElementById("alert");
+		alert.style.display="none";
 	}
 
 	drawPillar= function(){
@@ -170,7 +238,7 @@ var svgmodule = (function($){
 			rect.setAttributeNS(null, 'x', pillars[j].position + 25);
 			rect.setAttributeNS(null, 'y', hoogte + 25-section.height);
 			rect.setAttributeNS(null, 'height', section.height);
-			rect.setAttributeNS(null, 'width', (pillars[j+1].position - pillars[j].position - 5) + (2 * defaultPillarWidth));
+			rect.setAttributeNS(null, 'width', (pillars[j+1].position - pillars[j].position-5) + (2 * defaultPillarWidth));
 			rect.setAttribute('onmouseover', 'svgmodule.DropDown('+ (pillars[j].position + 25) +','+ (hoogte + 25) + ','+(j)+')');
 			rect.setAttribute('class', 'background');
 			document.getElementById("svgcanvas").appendChild(rect);
@@ -194,21 +262,49 @@ var svgmodule = (function($){
 
 	drawPlanks = function(){
 		var hoogte = 0;
-		var lengthFromSide =25;
+		var lengthFromSide =0;
+		var i=0;
 		stellingkast.secties.forEach(function(section){
 			if(section.height > hoogte){
 				hoogte=section.height;
 			}
 		})
-
-		stellingkast.secties.forEach(function(section){
+		stellingkast.secties.forEach(function(section){	
 			section.planken.forEach(function(plank){
+				lengthFromSide=pillars[i].position+defaultPillarWidth+25;
 				var rect = draw.rect(section.width,defaultPlankWidth);
-				rect.attr({name: plank.name, x: lengthFromSide, y: hoogte + 15-plank.height, fill: '#454545', style:"cursor:row-resize"});
+				rect.attr({name: plank.name, x: lengthFromSide, y: hoogte + 15-plank.height, fill: '#454545', style:"cursor:row-resize",onmouseenter:'svgmodule.drawWeight("'+plank.name+'")', ondragend:'svgmodule.drawWeight("'+plank.name+'")',onmouseleave:"svgmodule.removeWeight()"});
 				rect.draggable({minX: lengthFromSide, minY: hoogte-section.height+25, maxX: lengthFromSide + section.width, maxY: hoogte+ 20})
 			})		
-			lengthFromSide += section.width;
+			i++;			
 		})
+	}
+	drawArrows = function(){
+		var horizontalArrow = document.getElementById("horizontalArrow");
+		var verticalArrow = document.getElementById("verticalArrow");
+		var horizontalSpan = document.getElementById("horizontalSpan");
+		var verticalSpan = document.getElementById("verticalSpan");
+		//horizontal (0,0) = (0,0) vertical (0,0) = (0,-15) meaning that for the vertical top you have to subtract 15
+		var hoogte = 0;
+		var breedte = 0;
+		console.log(stellingkast.secties);
+		stellingkast.secties.forEach(function(section){
+			if(section.height > hoogte){
+				hoogte=section.height;
+			}
+			breedte += section.width+defaultPillarWidth;
+		})
+		var section= stellingkast.secties;
+		horizontalSpan.innerHTML=(breedte + defaultPillarWidth)+" meter";
+		verticalSpan.innerHTML=hoogte + " meter";
+		horizontalArrow.style.width=(breedte + defaultPillarWidth) + "px";
+		horizontalArrow.style.top=10+ "px";
+		horizontalArrow.style.left=25+ "px";
+		horizontalArrow.style.display="flex";
+		verticalArrow.style.display="flex";
+		verticalArrow.style.width=hoogte + "px";
+		verticalArrow.style.top=(25-15)+ "px";
+		verticalArrow.style.left=10+ "px";
 	}
 
 	clearsvg = function(){
@@ -291,7 +387,14 @@ var svgmodule = (function($){
 	}
 
 	newSection = function(height,width,depth,planks){
-		stellingkast.secties.push({name:"sectie " + (stellingkast.secties.length + 1), height:height, width:width, planks:planks, planken:[]});
+		var naamNummer = 1
+		if(stellingkast.secties.length != 0){
+			naamNummer=parseInt(stellingkast.secties[stellingkast.secties.length-1].name.replace("sectie ", ""))+1
+		}
+		if (height>maxHoogte){
+			maxHoogte=height;
+		}
+		stellingkast.secties.push({name:"sectie " + naamNummer, height:height, width:width, planks:planks, planken:[]});
 		stellingkast.depth = depth;
 	};
 
@@ -325,6 +428,7 @@ var svgmodule = (function($){
 		ChangeRackDepth(Diepte);
 	}
 
+
 	//sectionLocation = function(){
 
 	// Tijdelijk overbodig. is voor slepen van accesoires.
@@ -355,8 +459,8 @@ var svgmodule = (function($){
 	test2= function(){
 		console.log(stellingkast);
 	}
-	return {initModule:initModule, newSection:newSection, getarray:getarray, addSection:addSection, newrack:newrack,
-	 drawRack:drawRack, test:test, DropDown:DropDown, ChangeRackDepth:ChangeRackDepth,
+	return {initModule:initModule, newSection:newSection, getarray:getarray, addSection:addSection, newrack:newrack,removeAlert:removeAlert, drawArrows:drawArrows,
+	 drawRack:drawRack, test:test, DropDown:DropDown, ChangeRackDepth:ChangeRackDepth, drawWeight:drawWeight, removeWeight:removeWeight, drawAlert:drawAlert,
 	 ChangeHeightWidthSection:ChangeHeightWidthSection, clearsvg:clearsvg, getValuesFromDropDown:getValuesFromDropDown, closeDropDown:closeDropDown,
 	 sectionLocation,test2:test2}
 }(jQuery));
