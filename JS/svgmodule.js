@@ -279,6 +279,8 @@ var svgmodule = (function($){
 			})		
 			i++;			
 		})
+
+		calculatePrice(); // hier wordt de prijs bereken functie gestart.
 	}
 	drawArrows = function(){
 		var horizontalArrow = document.getElementById("horizontalArrow");
@@ -470,12 +472,12 @@ var svgmodule = (function($){
 		pillarAmount = stellingkast.secties.Length+1;
 		totalPrice = 0;
 		stellingkast.secties.forEach(function(sectie){
-			totalPrice += sectie.width+stellingkast.depth*sectie.planks;
+			totalPrice += sectie.width+(stellingkast.depth*0.33)*(sectie.planks/2.75);
 		})
 		pillars.forEach(function(pillar){
-			totalPrice += pillar.height;
+			totalPrice += pillar.height*0.82;
 		})
-		console.log(totalPrice);
+		$("#totaalPrijs").text(Math.round(totalPrice));
 	}
 
 
