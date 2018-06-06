@@ -102,8 +102,8 @@ var svgmodule = (function($){
 
 	prepRackPlanks = function(){
 		stellingkast.secties.forEach(function(section){
-			j=parseInt(section.name.replace("sectie ", ""))
-			i=1;
+			var j=parseInt(section.name.replace("sectie ", ""))
+			var i=1;
 			if (section.planken.length == 0){
 				var hoogteverschil = section.height/section.planks;
 				while (i <= section.planks) {
@@ -115,6 +115,17 @@ var svgmodule = (function($){
 			}
 			j++;
 		});
+	}
+	prepRackPlanks2 = function(index){
+		var i=1;
+		var section = stellingkast.secties[index];
+		section.planken=[];
+				var hoogteverschil = section.height/section.planks;
+				while (i <= section.planks) {
+					
+						section.planken.push({name:("plank "+(index+1)+"."+i) , height:hoogteverschil*(i-1)});
+						i++;
+				}	
 	}
 
 	drawRack = function(){
@@ -173,7 +184,7 @@ var svgmodule = (function($){
 			section.planken.forEach(function(plank){
 				if(plank.name == plankname){
 					
-					plank.height = -y+section.height+15+(maxHoogte-section.height);;
+					plank.height = maxHoogte-(y-15);
 				}
 			})
 		})
@@ -340,9 +351,12 @@ var svgmodule = (function($){
 			}
 			i++
 		})
+		if(Height>maxHoogte){
+			maxHoogte=Height;
+		}
 		clearsvg();
 		prepRackPillar();
-		prepRackPlanks();
+		prepRackPlanks2(Section);
 		drawRack();
 	}
 
