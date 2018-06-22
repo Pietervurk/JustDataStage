@@ -105,10 +105,18 @@ var svgmodule = (function($){
 			var j=parseInt(section.name.replace("sectie ", ""))
 			var i=1;
 			if (section.planken.length == 0){
-				var hoogteverschil = section.height/section.planks;
+				if (section.planks > 1){
+					var hoogteverschil = section.height/(section.planks-1);
+				}else{
+					var hoogteverschil = section.height/(section.planks-1);
+				}
+				
 				while (i <= section.planks) {
-					
-						section.planken.push({name:("plank "+j+"."+i) , height:hoogteverschil*(i-1)});
+					if(i == section.planks){
+						section.planken.push({name:("plank "+j+"."+i) , height:section.height-10});
+					}else{
+						section.planken.push({name:("plank "+j+"."+i) , height:hoogteverschil*(i)-hoogteverschil});
+					}
 						i++;
 					}
 				
@@ -120,10 +128,17 @@ var svgmodule = (function($){
 		var i=1;
 		var section = stellingkast.secties[index];
 		section.planken=[];
-				var hoogteverschil = section.height/section.planks;
+		if (section.planks > 1){
+			var hoogteverschil = section.height/(section.planks-1);
+		}else{
+			var hoogteverschil = section.height/(section.planks-1);
+		}
 				while (i <= section.planks) {
-					
-						section.planken.push({name:("plank "+(index+1)+"."+i) , height:hoogteverschil*(i-1)});
+					if(i == section.planks){
+						section.planken.push({name:("plank "+j+"."+i) , height:section.height-10});
+					}else{
+						section.planken.push({name:("plank "+j+"."+i) , height:hoogteverschil*(i)-hoogteverschil});
+					}
 						i++;
 				}	
 	}
